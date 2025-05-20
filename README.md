@@ -1,4 +1,7 @@
 # Oria AI Chat Application
+> Developed by Xexis | Created by [Bappi Bhadro](https://bappi5.netlify.app/)
+
+![Oria Logo]([https://your-domain.com/logo.png](https://oria-mobile.netlify.app/image/cb.png))
 
 A fully responsive, mobile-first AI chat application powered by the Gemini API.
 
@@ -46,6 +49,17 @@ const apiKey = 'abc123xyz...';
 - Chrome, Firefox, Safari, Edge (latest versions)
 - iOS Safari (iPhone 6 and above)
 - Android Chrome/WebView (4.4+)
+
+**🧩 Fixes & Stability**
+✅ Latest Bug Fixes and Glitch Resolutions in v5.2025:
+🐞 Fixed: Gemini response delay and freezing issues
+🛠 Fixed: Input box not clearing after send
+📱 Fixed: UI glitch in small-screen devices
+🔁 Improved: Response flow handling (auto-scroll and retry logic)
+🚫 Removed: Unused logs and console errors for cleaner dev view
+🔄 Refactored: Code for better readability and stability
+
+Oria v5.2025 is now more stable, bug-free, and performance-optimized for all modern browsers.
 
 ## License
 
