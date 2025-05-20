@@ -1,7 +1,10 @@
 # Oria AI Chat Application
 > Developed by Xexis | Created by [Bappi Bhadro](https://bappi5.netlify.app/)
 
-![Oria Logo](https://oria-mobile.netlify.app/image/cb.png)
+<p>
+  <img src="https://oria-mobile.netlify.app/image/cb.png" alt="Oria Logo" width="100"/>
+</p>
+
 
 A fully responsive, mobile-first AI chat application powered by the Gemini API.
 
