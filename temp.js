@@ -25,11 +25,11 @@ let currentUploadedImage = null;
 let imagePreviewContainer = null;
 
 // Image Generation Variables
-const PEXELS_API_KEY = 'sOG1TBcLNJD5rU28AWrsOULtlJjQoW3pw6BRT8Ta6nau2FGREB0votg3';
+const PEXELS_API_KEY = 'your key';
 let generatedImages = JSON.parse(localStorage.getItem('generatedImages')) || [];
 
 // Authentication Configuration
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwylUFuhd8dStyOxymL3fUhbAX5wEG_mK5374RznxuZJ4JCDyyaK-TnoKut_R6IE4Tv/exec'; // Replace with your deployed Google Apps Script URL
+const GOOGLE_SCRIPT_URL = 'your key'; // Replace with your deployed Google Apps Script URL
 let isAuthenticated = false;
 let currentUser = null;
 
@@ -871,7 +871,7 @@ const plusButton = document.querySelector('.plus-button');
 const versionOptions = document.querySelectorAll('.version-option');
 
 // API Configuration
-const API_KEY = "AIzaSyDFdYDjLbyC73TdejXW6oUWQoAJUVvxPPE";
+const API_KEY = "your key";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
 // Daily suggestion topics - avoiding image/video generation
