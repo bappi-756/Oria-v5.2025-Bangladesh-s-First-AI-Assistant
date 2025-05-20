@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oria - Settings</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <style>
+        /* Allow text selection only in input fields and text areas */
+        *:not(input):not(textarea) {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Improve input field behavior on mobile */
+        input, textarea, select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0;
+        }
+        
+        body {
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Add active state styles for improved mobile feedback */
+        button:active, .color-swatch:active, .theme-option:active {
+            opacity: 0.7;
+            transition: opacity 0.1s;
+        }
+        
+        .app-container {
+            height: 100vh;
+            max-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+        
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 500px;
+                margin: 0 auto;
+                height: 90vh;
+                max-height: 800px;
+                margin-top: 5vh;
+                border-radius: 15px;
+                border: 1px solid var(--border-color);
+            }
+        }
+        
+        .settings-container {
+            padding: 15px 10px;
+            overflow: auto;
+            flex: 1;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .settings-container::-webkit-scrollbar {
+            width: 0;
+            display: none; /* Safari and Chrome */
+        }
+        
+        /* Remove outlines from buttons and interactive elements */
+        button, a, input, .toggle-switch, .theme-option {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        button::-moz-focus-inner {
+            border: 0;
+        }
+        
+        a:focus, button:focus, input:focus {
+            outline: none !important;
+        }
+        
+        .settings-section {
+            margin-bottom: 25px;
+        }
+        
+        .settings-heading {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+        
+        .settings-subheading {
+            font-size: 14px;
+            color: var(--subheading-color);
+            margin-bottom: 15px;
+        }
+        
+        .theme-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .theme-option {
+            border-radius: 12px;
+            overflow: hidden;
+            width: calc(50% - 10px);
+            max-width: 180px;
+            border: 2px solid var(--border-color);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        
+        .theme-option.active {
+            border-color: var(--accent-color);
+        }
+        
+        .theme-preview {
+            height: 120px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .theme-preview-header {
+            height: 20px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .theme-preview-content {
+            flex: 1;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6px;
+        }
+        
+        .theme-preview-message {
+            height: 8px;
+            width: 80%;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+        
+        .theme-preview-input {
+            height: 12px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        
+        .dark-theme-preview .theme-preview-header,
+        .dark-theme-preview .theme-preview-content,
+        .dark-theme-preview .theme-preview-input {
+            background-color: #283045;
+        }
+        
+        .dark-theme-preview {
+            background-color: #101623;
+        }
+        
+        .dark-theme-preview .theme-preview-message {
+            background-color: #3c445e;
+        }
+        
+        .light-theme-preview .theme-preview-header,
+        .light-theme-preview .theme-preview-content,
+        .light-theme-preview .theme-preview-input {
+            background-color: #dce6f9;
+        }
+        
+        .light-theme-preview {
+            background-color: #f3f7ff;
+        }
+        
+        .light-theme-preview .theme-preview-message {
+            background-color: #c2d1ea;
+        }
+        
+        .theme-name {
+            text-align: center;
+            padding: 10px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .color-swatch {
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            padding: 8px;
+            color: white;
+            border: 1px solid var(--border-color);
+            font-size: 11px;
+            font-weight: 500;
+            text-shadow: 0 0 2px rgba(0,0,0,0.3);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .color-swatch:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .color-swatch:hover::after {
+            content: "Click to edit";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        /* Forgot Password Section Styles */
+        .forgot-password-section {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .forgot-password-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        
+        .forgot-password-description {
+            font-size: 14px;
+            color: var(--subheading-color);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .forgot-password-button-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .forgot-password-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            justify-content: center;
+        }
+        
+        .email-button {
+            flex: 1;
+            width: 80%;
+        }
+        
+        .call-button {
+            width: 80px;
+            min-width: 80px;
+            padding: 12px;
+        }
+        
+        .forgot-password-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .forgot-password-button:active {
+            transform: translateY(0);
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            color: #6e41c0;
+        }
+        
+        /* Color swatches for dark theme */
+        .dark-text { background-color: #edf3ff; }
+        .dark-subheading { background-color: #97a7ca; }
+        .dark-placeholder { background-color: #c3cdde; }
+        .dark-primary { background-color: #101623; }
+        .dark-secondary { background-color: #283045; }
+        .dark-secondary-hover { background-color: #333e58; }
+        .dark-scrollbar { background-color: #626a7f; }
+        
+        /* Color swatches for light theme */
+        .light-text { background-color: #090c13; }
+        .light-subheading { background-color: #7b8cae; }
+        .light-placeholder { background-color: #606982; }
+        .light-primary { background-color: #f3f7ff; }
+        .light-secondary { background-color: #dce6f9; }
+        .light-secondary-hover { background-color: #d2ddf2; }
+        .light-scrollbar { background-color: #a2aac2; }
+        
+        /* Custom toggle switch for theme */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            margin-right: 10px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--secondary-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #6e41c0;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .toggle-label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        .save-button {
+            background-color: var(--button-primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            max-width: 300px;
+            margin: 30px auto;
+            display: block;
+        }
+        
+        .save-button:hover {
+            background-color: var(--button-primary-hover);
+        }
+        
+        @media (max-width: 480px) {
+            .color-palette {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .theme-options {
+                justify-content: center;
+            }
+        }
+        
+        /* Add this to display the new palette colors as well */
+        .settings-section.color-palette-section {
+            padding: 15px;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        
+        .functional-colors-heading {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+        
+        .functional-colors {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .toggle-colors-btn {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .toggle-colors-btn button {
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .toggle-colors-btn button:hover {
+            background: var(--secondary-hover-color);
+        }
+        
+        .reset-colors-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .reset-colors-btn button {
+            background: var(--error-color);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+        
+        .reset-colors-btn button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <a onclick="window.history.back()" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
+            </div>
+            <div class="header-center">
+                <h1 style="font-size: 18px; margin: 0;">Settings</h1>
+            </div>
+            <div class="header-right"></div>
+        </header>
+
+        <!-- Settings Content -->
+        <main class="settings-container">
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h2 class="settings-heading">Appearance</h2>
+                    <p class="settings-subheading">Customize how Oria looks for you</p>
+                    
+                    <div class="toggle-container" style="display: none;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Dark Mode</span>
+                    </div>
+                    
+                    <div class="theme-options">
+                        <div class="theme-option active" data-theme="dark">
+                            <div class="theme-preview dark-theme-preview">
+                                <div class="theme-preview-header"></div>
+                                <div class="theme-preview-content">
+                                    <div>
+                                        <div class="theme-preview-message"></div>
+                                        <div class="theme-preview-message" style="width: 60%"></div>
+                                    </div>
+                                    <div class="theme-preview-input"></div>
+                                </div>
+                            </div>
+                            <div class="theme-name">Dark</div>
+                        </div>
+                        
+                        <div class="theme-option" data-theme="light">
+                            <div class="theme-preview light-theme-preview">
+                                <div class="theme-preview-header"></div>
+                                <div class="theme-preview-content">
+                                    <div>
+                                        <div class="theme-preview-message"></div>
+                                        <div class="theme-preview-message" style="width: 60%"></div>
+                                    </div>
+                                    <div class="theme-preview-input"></div>
+                                </div>
+                            </div>
+                            <div class="theme-name">Light</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section color-palette-section">
+                    <h2 class="settings-heading">Color Palette</h2>
+                    <p class="settings-subheading">The colors used in the current theme</p>
+                    
+                    <div id="color-palette" class="color-palette">
+                        <!-- Base colors will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="toggle-colors-btn">
+                        <button id="toggle-functional-colors">Show More Colors</button>
+                    </div>
+                    
+                    <div id="functional-colors-container" style="display:none;">
+                        <h3 class="functional-colors-heading">Functional Colors</h3>
+                        <div id="functional-colors" class="functional-colors">
+                            <!-- Functional colors will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="reset-colors-btn">
+                            <button id="reset-colors">Reset to Default Colors</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2 class="settings-heading">Account</h2>
+                    <p class="settings-subheading">Manage your account settings</p>
+                    
+                    <div class="forgot-password-section">
+                        <h3 class="forgot-password-title">Forgot Password?</h3>
+                        <p class="forgot-password-description">If you've forgotten your password, click the button below to send an email to our support team. We'll help you recover your account.</p>
+                        <div class="forgot-password-button-container">
+                            <button class="forgot-password-button email-button" onclick="sendForgotPasswordEmail()">
+                                <i class="fas fa-envelope"></i>
+                                Contact Support
+                            </button>
+                            <button class="forgot-password-button call-button" onclick="window.location.href='tel:+8801540625776'">
+                                <i class="fas fa-phone-alt"></i>
+                                phone
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="save-button" id="save-settings">Save Settings</button>
+                
+                <div class="legal-links-container">
+                    <div class="legal-links">
+                        <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const colorPalette = document.getElementById('color-palette');
+        const saveButton = document.getElementById('save-settings');
+        const toggleFunctionalColorsBtn = document.getElementById('toggle-functional-colors');
+        const functionalColorsContainer = document.getElementById('functional-colors-container');
+        
+        // Check if dark mode is already enabled (default to true for dark mode)
+        let darkModeEnabled = localStorage.getItem('darkMode') !== 'disabled';
+        
+        // Set initial theme if not set
+        if (!localStorage.getItem('darkMode')) {
+            localStorage.setItem('darkMode', 'enabled');
+            darkModeEnabled = true;
+        }
+        
+        // Function to handle forgot password email
+        function sendForgotPasswordEmail() {
+            // Get user's email from localStorage
+            const authData = localStorage.getItem('auth');
+            let userEmail = '';
+            let username = '';
+            let fullName = '';
+            
+            try {
+                if (authData) {
+                    const parsedData = JSON.parse(authData);
+                    userEmail = parsedData.email || '';
+                    username = parsedData.username || '';
+                    fullName = parsedData.name || username || '';
+                }
+            } catch (error) {
+                console.error('Error parsing auth data:', error);
+            }
+            
+            // Support email address
+            const supportEmail = 'id.profile.info@gmail.com';
+            
+            // Email subject
+            const subject = '🔐 Oria Account: Password/Email Change Request';
+            
+            // Get current date and time
+            const now = new Date();
+            const date = now.toLocaleDateString();
+            const time = now.toLocaleTimeString();
+            
+            // Email body
+            const body = `Dear Oria Support Team,
+
+I am writing to request assistance with my Oria account. I need to change my account credentials.
+
+📋 Account Information:
+• Username: ${username || '[Not available]'}
+• Current Email: ${userEmail || '[Not available]'}
+• Full Name: ${fullName || '[Not available]'}
+• Request Date: ${date}
+• Request Time: ${time}
+
+✍️ Request Details:
+I would like to:
+□ 1.Change my password
+□ 2.Update my email address
+□ 3.Both of the above
+
+Request: □ 
+
+🔒 Security Verification:
+I understand that for security purposes, you may need to verify my identity. I am prepared to:
+1. Provide additional verification information if needed
+2. Follow your security protocols
+3. Respond from my registered email address
+
+💡 Additional Notes:
+• This request was sent from the Oria Settings page
+• I am the authorized owner of this account
+• I have not shared my account credentials with anyone
+
+Please provide me with the necessary steps to proceed with this change. I will respond promptly to any verification requests.
+
+Thank you for your assistance.
+
+Best regards,
+${fullName || username || 'User'}
+
+-------------------
+📱 Sent from Oria App
+⏰ ${date} at ${time}
+🔔 If you did not request this change, please ignore this email.`;
+            
+            // Create the mailto URL
+            const mailtoUrl = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open the user's email client
+            window.location.href = mailtoUrl;
+        }
+        
+        // Toggle functional colors section
+        toggleFunctionalColorsBtn.addEventListener('click', () => {
+            const isHidden = functionalColorsContainer.style.display === 'none';
+            functionalColorsContainer.style.display = isHidden ? 'block' : 'none';
+            toggleFunctionalColorsBtn.textContent = isHidden ? 'Show Less Colors' : 'Show More Colors';
+            
+            // Save preference to localStorage
+            localStorage.setItem('showFunctionalColors', isHidden ? 'true' : 'false');
+        });
+        
+        // Restore functional colors display state
+        const showFunctionalColors = localStorage.getItem('showFunctionalColors') === 'true';
+        if (showFunctionalColors) {
+            functionalColorsContainer.style.display = 'block';
+            toggleFunctionalColorsBtn.textContent = 'Show Less Colors';
+        } else {
+            functionalColorsContainer.style.display = 'none';
+            toggleFunctionalColorsBtn.textContent = 'Show More Colors';
+        }
+        
+        // Initialize UI based on saved theme
+        if (darkModeEnabled) {
+            document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
+            themeToggle.checked = true;
+            setActiveTheme('dark');
+        } else {
+            document.body.classList.add('light-theme');
+            document.body.classList.remove('dark-theme');
+            themeToggle.checked = false;
+            setActiveTheme('light');
+        }
+        
+        // Toggle theme when switch is clicked
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                setActiveTheme('dark');
+            } else {
+                setActiveTheme('light');
+            }
+            
+            // Update color palette
+            updateColorPalette();
+            
+            // Apply saved custom colors for the selected theme
+            applyCustomColors();
+            
+            // Save theme to localStorage immediately on toggle
+            const theme = themeToggle.checked ? 'enabled' : 'disabled';
+            localStorage.setItem('darkMode', theme);
+        });
+        
+        // Handle theme option clicks
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const theme = option.getAttribute('data-theme');
+                setActiveTheme(theme);
+                themeToggle.checked = theme === 'dark';
+                
+                // Update color palette
+                updateColorPalette();
+                
+                // Apply saved custom colors for the selected theme
+                applyCustomColors();
+                
+                // Save theme to localStorage immediately on selection
+                const themeValue = theme === 'dark' ? 'enabled' : 'disabled';
+                localStorage.setItem('darkMode', themeValue);
+            });
+        });
+        
+        // Update color palette based on active theme
+        function updateColorPalette() {
+            const isDarkTheme = themeToggle.checked;
+            colorPalette.innerHTML = '';
+            const functionalColors = document.getElementById('functional-colors');
+            functionalColors.innerHTML = '';
+            
+            if (isDarkTheme) {
+                // Dark theme base colors
+                colorPalette.innerHTML = `
+                    <div class="color-swatch dark-text" data-color-var="--text-color">Text</div>
+                    <div class="color-swatch dark-subheading" data-color-var="--subheading-color">Subheading</div>
+                    <div class="color-swatch dark-placeholder" data-color-var="--placeholder-color">Placeholder</div>
+                    <div class="color-swatch dark-primary" data-color-var="--primary-color">Primary</div>
+                    <div class="color-swatch dark-secondary" data-color-var="--secondary-color">Secondary</div>
+                    <div class="color-swatch dark-secondary-hover" data-color-var="--secondary-hover-color">Hover</div>
+                    <div class="color-swatch dark-scrollbar" data-color-var="--scrollbar-color">Scrollbar</div>
+                `;
+                
+                // Dark theme functional colors
+                functionalColors.innerHTML = `
+                    <div class="color-swatch" style="background-color: var(--border-color)" data-color-var="--border-color">Border</div>
+                    <div class="color-swatch" style="background-color: var(--divider-color)" data-color-var="--divider-color">Divider</div>
+                    <div class="color-swatch" style="background-color: var(--success-color)" data-color-var="--success-color">Success</div>
+                    <div class="color-swatch" style="background-color: var(--error-color)" data-color-var="--error-color">Error</div>
+                    <div class="color-swatch" style="background-color: var(--warning-color)" data-color-var="--warning-color">Warning</div>
+                    <div class="color-swatch" style="background-color: var(--info-color)" data-color-var="--info-color">Info</div>
+                    <div class="color-swatch" style="background-color: var(--accent-color)" data-color-var="--accent-color">Accent</div>
+                    <div class="color-swatch" style="background-color: var(--button-primary-color)" data-color-var="--button-primary-color">Button</div>
+                `;
+            } else {
+                // Light theme base colors
+                colorPalette.innerHTML = `
+                    <div class="color-swatch light-text" data-color-var="--text-color">Text</div>
+                    <div class="color-swatch light-subheading" data-color-var="--subheading-color">Subheading</div>
+                    <div class="color-swatch light-placeholder" data-color-var="--placeholder-color">Placeholder</div>
+                    <div class="color-swatch light-primary" data-color-var="--primary-color">Primary</div>
+                    <div class="color-swatch light-secondary" data-color-var="--secondary-color">Secondary</div>
+                    <div class="color-swatch light-secondary-hover" data-color-var="--secondary-hover-color">Hover</div>
+                    <div class="color-swatch light-scrollbar" data-color-var="--scrollbar-color">Scrollbar</div>
+                `;
+                
+                // Light theme functional colors
+                functionalColors.innerHTML = `
+                    <div class="color-swatch" style="background-color: var(--border-color)" data-color-var="--border-color">Border</div>
+                    <div class="color-swatch" style="background-color: var(--divider-color)" data-color-var="--divider-color">Divider</div>
+                    <div class="color-swatch" style="background-color: var(--success-color)" data-color-var="--success-color">Success</div>
+                    <div class="color-swatch" style="background-color: var(--error-color)" data-color-var="--error-color">Error</div>
+                    <div class="color-swatch" style="background-color: var(--warning-color)" data-color-var="--warning-color">Warning</div>
+                    <div class="color-swatch" style="background-color: var(--info-color)" data-color-var="--info-color">Info</div>
+                    <div class="color-swatch" style="background-color: var(--accent-color)" data-color-var="--accent-color">Accent</div>
+                    <div class="color-swatch" style="background-color: var(--button-primary-color)" data-color-var="--button-primary-color">Button</div>
+                `;
+            }
+            
+            // Add click event listeners to all color swatches
+            document.querySelectorAll('.color-swatch').forEach(swatch => {
+                // Apply custom color if it exists in localStorage
+                const colorVar = swatch.getAttribute('data-color-var');
+                const themePrefix = isDarkTheme ? 'dark' : 'light';
+                const storedColor = localStorage.getItem(`${themePrefix}-${colorVar}`);
+                
+                if (storedColor) {
+                    if (swatch.hasAttribute('style')) {
+                        swatch.style.backgroundColor = storedColor;
+                    } else {
+                        swatch.style.backgroundColor = storedColor;
+                        // Keep the text readable
+                        if (isLightColor(storedColor)) {
+                            swatch.style.color = '#000';
+                            swatch.style.textShadow = 'none';
+                        }
+                    }
+                }
+                
+                swatch.addEventListener('click', () => openColorPicker(swatch));
+            });
+        }
+        
+        // Function to check if a color is light (to determine text color)
+        function isLightColor(color) {
+            // Convert hex to RGB
+            let r, g, b;
+            if (color.startsWith('#')) {
+                const hex = color.substring(1);
+                r = parseInt(hex.substr(0, 2), 16);
+                g = parseInt(hex.substr(2, 2), 16);
+                b = parseInt(hex.substr(4, 2), 16);
+            } else if (color.startsWith('rgb')) {
+                const rgb = color.match(/\d+/g);
+                r = parseInt(rgb[0]);
+                g = parseInt(rgb[1]);
+                b = parseInt(rgb[2]);
+            } else {
+                return false;
+            }
+            
+            // Calculate luminance
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            return luminance > 0.5;
+        }
+        
+        // Function to open a color picker for the selected swatch
+        function openColorPicker(swatch) {
+            const colorPicker = document.createElement('input');
+            colorPicker.type = 'color';
+            
+            // Get the current color
+            let currentColor;
+            if (swatch.hasAttribute('style') && swatch.style.backgroundColor) {
+                // Convert RGB to hex if needed
+                currentColor = rgbToHex(swatch.style.backgroundColor);
+            } else {
+                // Get computed style if no inline style
+                const computedStyle = window.getComputedStyle(swatch);
+                currentColor = rgbToHex(computedStyle.backgroundColor);
+            }
+            
+            // Set color picker's value
+            colorPicker.value = currentColor;
+            
+            // When a color is selected
+            colorPicker.addEventListener('input', (e) => {
+                const newColor = e.target.value;
+                swatch.style.backgroundColor = newColor;
+                
+                // Update text color for readability
+                if (isLightColor(newColor)) {
+                    swatch.style.color = '#000';
+                    swatch.style.textShadow = 'none';
+                } else {
+                    swatch.style.color = '#fff';
+                    swatch.style.textShadow = '0 0 2px rgba(0,0,0,0.3)';
+                }
+                
+                // Save to localStorage
+                const colorVar = swatch.getAttribute('data-color-var');
+                const themePrefix = themeToggle.checked ? 'dark' : 'light';
+                localStorage.setItem(`${themePrefix}-${colorVar}`, newColor);
+                
+                // Apply the change to the current theme
+                document.documentElement.style.setProperty(colorVar, newColor);
+            });
+            
+            // Trigger click on the color picker
+            colorPicker.click();
+        }
+        
+        // Helper function to convert RGB to hex
+        function rgbToHex(rgb) {
+            // Check if already hex
+            if (rgb.startsWith('#')) return rgb;
+            
+            // Extract RGB values
+            const rgbValues = rgb.match(/\d+/g);
+            if (!rgbValues || rgbValues.length < 3) return '#000000';
+            
+            // Convert to hex
+            const r = parseInt(rgbValues[0]);
+            const g = parseInt(rgbValues[1]);
+            const b = parseInt(rgbValues[2]);
+            
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+        
+        // Initialize color palette
+        updateColorPalette();
+        
+        // Apply custom colors from localStorage when page loads
+        function applyCustomColors() {
+            const isDarkTheme = themeToggle.checked;
+            const themePrefix = isDarkTheme ? 'dark' : 'light';
+            
+            // Get all CSS variables 
+            const cssVars = [
+                '--text-color', '--subheading-color', '--placeholder-color',
+                '--primary-color', '--secondary-color', '--secondary-hover-color',
+                '--scrollbar-color', '--border-color', '--divider-color',
+                '--success-color', '--error-color', '--warning-color',
+                '--info-color', '--accent-color', '--button-primary-color'
+            ];
+            
+            // Apply stored colors
+            cssVars.forEach(varName => {
+                const storedColor = localStorage.getItem(`${themePrefix}-${varName}`);
+                if (storedColor) {
+                    document.documentElement.style.setProperty(varName, storedColor);
+                }
+            });
+        }
+        
+        // Call on page load
+        applyCustomColors();
+        
+        // Save settings button
+        saveButton.addEventListener('click', () => {
+            // Show confirmation message
+            const confirmation = document.createElement('div');
+            confirmation.textContent = 'Settings saved!';
+            confirmation.style.position = 'fixed';
+            confirmation.style.bottom = '30px';
+            confirmation.style.left = '50%';
+            confirmation.style.transform = 'translateX(-50%)';
+            confirmation.style.padding = '10px 20px';
+            confirmation.style.backgroundColor = 'var(--success-color)';
+            confirmation.style.color = 'white';
+            confirmation.style.borderRadius = '8px';
+            confirmation.style.zIndex = '1000';
+            confirmation.style.boxShadow = '0 2px 10px var(--shadow-color)';
+            
+            document.body.appendChild(confirmation);
+            
+            setTimeout(() => {
+                confirmation.style.opacity = '0';
+                confirmation.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => confirmation.remove(), 500);
+            }, 2000);
+        });
+        
+        // Helper function to set active theme
+        function setActiveTheme(theme) {
+            themeOptions.forEach(opt => {
+                if (opt.getAttribute('data-theme') === theme) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+            
+            if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            }
+            
+            updateColorPalette();
+        }
+        
+        // Reset colors button
+        const resetColorsBtn = document.getElementById('reset-colors');
+        resetColorsBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all colors to default? This action cannot be undone.')) {
+                // Get current theme
+                const themePrefix = themeToggle.checked ? 'dark' : 'light';
+                
+                // Get all CSS variables
+                const cssVars = [
+                    '--text-color', '--subheading-color', '--placeholder-color',
+                    '--primary-color', '--secondary-color', '--secondary-hover-color',
+                    '--scrollbar-color', '--border-color', '--divider-color',
+                    '--success-color', '--error-color', '--warning-color',
+                    '--info-color', '--accent-color', '--button-primary-color'
+                ];
+                
+                // Remove stored colors for current theme
+                cssVars.forEach(varName => {
+                    localStorage.removeItem(`${themePrefix}-${varName}`);
+                });
+                
+                // Reset the document to use default CSS variables
+                if (themeToggle.checked) {
+                    document.body.classList.remove('light-theme');
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    document.body.classList.add('light-theme');
+                }
+                
+                // Clear any inline styles
+                cssVars.forEach(varName => {
+                    document.documentElement.style.removeProperty(varName);
+                });
+                
+                // Update the color palette display
+                updateColorPalette();
+                
+                // Show confirmation
+                const confirmation = document.createElement('div');
+                confirmation.textContent = 'Colors reset to default!';
+                confirmation.style.position = 'fixed';
+                confirmation.style.bottom = '30px';
+                confirmation.style.left = '50%';
+                confirmation.style.transform = 'translateX(-50%)';
+                confirmation.style.padding = '10px 20px';
+                confirmation.style.backgroundColor = 'var(--info-color)';
+                confirmation.style.color = 'white';
+                confirmation.style.borderRadius = '8px';
+                confirmation.style.zIndex = '1000';
+                confirmation.style.boxShadow = '0 2px 10px var(--shadow-color)';
+                
+                document.body.appendChild(confirmation);
+                
+                setTimeout(() => {
+                    confirmation.style.opacity = '0';
+                    confirmation.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => confirmation.remove(), 500);
+                }, 2000);
+            }
+        });
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+    </script>
+</body>
+</html> 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggestion Buttons Debug</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #6e41c0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="test-container">
+        <h1>Suggestion Buttons Debug</h1>
+        
+        <div class="controls">
+            <button id="toggleTheme">Toggle Theme</button>
+            <button id="refreshButtons">Refresh Buttons</button>
+        </div>
+        
+        <h2>Suggestion Buttons Test:</h2>
+        <div class="suggestion-buttons">
+            <!-- Buttons will be added here by JavaScript -->
+        </div>
+        
+        <h2>Hardcoded Button Test:</h2>
+        <div style="overflow-x: auto; padding: 10px 0;">
+            <button class="suggestion-button" style="display: inline-block; margin-right: 10px;">
+                <span class="suggestion-title">Hardcoded Test Button</span>
+                <span class="suggestion-subtitle">testing display</span>
+            </button>
+        </div>
+        
+        <div class="debug-info" id="debugInfo"></div>
+    </div>
+
+    <script>
+        // Simplified test version of the suggestion code
+        document.addEventListener('DOMContentLoaded', function() {
+            const suggestions = [
+                { title: "Test suggestion 1", subtitle: "test subtitle 1" },
+                { title: "Test suggestion 2", subtitle: "test subtitle 2" },
+                { title: "Test suggestion 3", subtitle: "test subtitle 3" },
+                { title: "Test suggestion 4", subtitle: "test subtitle 4" }
+            ];
+            
+            const suggestionButtonsContainer = document.querySelector('.suggestion-buttons');
+            const debugInfo = document.getElementById('debugInfo');
+            
+            // Update debug info
+            function updateDebugInfo() {
+                const computedStyle = window.getComputedStyle(suggestionButtonsContainer);
+                debugInfo.textContent = `
+Suggestion Container:
+- Display: ${computedStyle.display}
+- Visibility: ${computedStyle.visibility}
+- Height: ${computedStyle.height}
+- Width: ${computedStyle.width}
+- Overflow-X: ${computedStyle.overflowX}
+- Position: ${computedStyle.position}
+
+Container HTML:
+${suggestionButtonsContainer.innerHTML}
+                `;
+            }
+            
+            // Create suggestion buttons
+            function createButtons() {
+                // Clear existing buttons
+                suggestionButtonsContainer.innerHTML = '';
+                
+                // Create new buttons
+                suggestions.forEach(suggestion => {
+                    const button = document.createElement('button');
+                    button.className = 'suggestion-button';
+                    button.innerHTML = `
+                        <span class="suggestion-title">${suggestion.title}</span>
+                        <span class="suggestion-subtitle">${suggestion.subtitle}</span>
+                    `;
+                    
+                    suggestionButtonsContainer.appendChild(button);
+                });
+                
+                updateDebugInfo();
+            }
+            
+            // Toggle theme
+            document.getElementById('toggleTheme').addEventListener('click', function() {
+                if (document.body.classList.contains('light-theme')) {
+                    document.body.classList.remove('light-theme');
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    document.body.classList.add('light-theme');
+                }
+                updateDebugInfo();
+            });
+            
+            // Refresh buttons
+            document.getElementById('refreshButtons').addEventListener('click', function() {
+                createButtons();
+            });
+            
+            // Initial creation
+            createButtons();
+        });
+    </script>
+</body>
+</html> 

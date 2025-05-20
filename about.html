@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oria - About Us</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Allow text selection for about content */
+        .about-content {
+            -webkit-touch-callout: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        body {
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .app-container {
+            height: 100vh;
+            max-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+        
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 800px;
+                margin: 0 auto;
+                height: 90vh;
+                max-height: 800px;
+                margin-top: 5vh;
+                border-radius: 15px;
+                border: 1px solid var(--border-color);
+            }
+        }
+        
+        .about-container {
+            padding: 0;
+            overflow: auto;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-color) transparent;
+        }
+        
+        .about-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .about-container::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-color);
+            border-radius: 3px;
+        }
+        
+        .about-container::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        
+        .about-content {
+            padding: 20px;
+        }
+        
+        .about-section {
+            margin-bottom: 40px;
+        }
+        
+        .about-section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .about-section-title i {
+            color: var(--accent-color);
+        }
+        
+        .about-paragraph {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: var(--secondary-color);
+        }
+        
+        .comparison-table th {
+            background-color: var(--secondary-hover-color);
+            padding: 12px 15px;
+            text-align: left;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .oria-highlight {
+            background-color: rgba(var(--accent-rgb), 0.1);
+            font-weight: 500;
+        }
+        
+        .feature-list {
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.5;
+        }
+        
+        .feature-list li i {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: var(--accent-color);
+        }
+        
+        .model-card {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .model-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+        
+        .badge-current {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .badge-beta {
+            background-color: #2196f3;
+            color: white;
+        }
+        
+        .badge-coming-soon {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .badge-legacy {
+            background-color: #9e9e9e;
+            color: white;
+        }
+        
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .model-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .model-description {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .model-features {
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        .model-features li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            font-size: 14px;
+        }
+        
+        .model-features i {
+            color: var(--accent-color);
+            margin-right: 10px;
+            min-width: 14px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        /* Back button style */
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0;
+            color: var(--text-color);
+            font-weight: 500;
+            text-decoration: none;
+            padding: 15px 20px;
+            background-color: transparent;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .back-button:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Header styling */
+        .about-header {
+            background-color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            justify-content: space-between;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 12px;
+            }
+            
+            .comparison-table th, 
+            .comparison-table td {
+                padding: 8px 10px;
+            }
+            
+            .about-section-title {
+                font-size: 20px;
+            }
+        }
+
+        /* Version History Styling */
+        .version-history-card {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .future-version {
+            background-color: var(--primary-color);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(29, 126, 253, 0.15);
+        }
+        
+        .version-history-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .version-number {
+            font-size: 18px;
+            font-weight: 600;
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+        
+        .version-date {
+            color: var(--subheading-color);
+            font-size: 14px;
+            margin-right: auto;
+        }
+        
+        .model-indicator {
+            font-size: 14px;
+            color: var(--subheading-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .model-name {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .model-note {
+            font-size: 12px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        .version-changelog {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .version-changelog li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.4;
+        }
+        
+        .version-changelog li i {
+            margin-right: 10px;
+            min-width: 16px;
+            text-align: center;
+            margin-top: 2px;
+        }
+        
+        .version-changelog .fa-plus-circle {
+            color: #4caf50;
+        }
+        
+        .version-changelog .fa-wrench {
+            color: #ff9800;
+        }
+        
+        .version-changelog .fa-lock {
+            color: #2196f3;
+        }
+        
+        .version-changelog .fa-rocket {
+            color: #9c27b0;
+        }
+        
+        .version-changelog .fa-star {
+            color: #ffeb3b;
+            text-shadow: 0 0 3px rgba(0,0,0,0.3);
+        }
+        
+        .version-changelog .fa-info-circle {
+            color: #03a9f4;
+        }
+        
+        @media (max-width: 768px) {
+            .version-history-header {
+                flex-wrap: wrap;
+            }
+            
+            .version-date {
+                order: 3;
+                margin-top: 5px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="about-header">
+            <div class="header-top">
+                <a onclick="history.back()" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Oria</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main About Content -->
+        <main class="about-container">
+            <div class="about-content">
+                <!-- Introduction Section -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-info-circle"></i> About Oria</h2>
+                    <p class="about-paragraph">
+                        Oria is a specialized AI assistant created by Xexis, designed specifically to enhance your knowledge acquisition and learning experience. Unlike general-purpose AI systems, Oria focuses on delivering accurate, educational content with exceptional clarity and precision.
+                    </p>
+                    <p class="about-paragraph">
+                        Founded by Bappi Bhadro, Oria represents a new generation of AI assistants that prioritize knowledge integrity, educational value, and user privacy while offering a clean, distraction-free interface that helps you focus on what matters most: the information you need.
+                    </p>
+                </div>
+
+                <!-- Oria vs Other AI Systems - Changed to Why Choose Oria -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-star"></i> Why Choose Oria</h2>
+                    <p class="about-paragraph">
+                        Oria takes a specialized approach to AI assistance by focusing specifically on knowledge and learning. Here's what makes Oria exceptional:
+                    </p>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Oria's Approach</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Primary Focus</td>
+                                <td class="oria-highlight">Knowledge & Learning - Specialized in educational content delivery</td>
+                            </tr>
+                            <tr>
+                                <td>Training Approach</td>
+                                <td class="oria-highlight">Knowledge-optimized with emphasis on accuracy and educational value</td>
+                            </tr>
+                            <tr>
+                                <td>Interface Design</td>
+                                <td class="oria-highlight">Clean, learning-focused UI that eliminates distractions</td>
+                            </tr>
+                            <tr>
+                                <td>Image Generation</td>
+                                <td class="oria-highlight">Fully integrated with simple /image command</td>
+                            </tr>
+                            <tr>
+                                <td>Video Generation</td>
+                                <td class="oria-highlight">Built-in capabilities with /video command</td>
+                            </tr>
+                            <tr>
+                                <td>DeepX Mode</td>
+                                <td class="oria-highlight">Enhanced research capabilities for deeper insight</td>
+                            </tr>
+                            <tr>
+                                <td>URL Analysis</td>
+                                <td class="oria-highlight">Deep analysis of web content for comprehensive understanding</td>
+                            </tr>
+                            <tr>
+                                <td>Privacy Approach</td>
+                                <td class="oria-highlight">Privacy-focused with local storage of conversation history</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="about-paragraph">
+                        While other AI systems take more generalized approaches, Oria's specialized focus on knowledge and education makes it the ideal assistant for learning, research, and information discovery.
+                    </p>
+                </div>
+
+                <!-- Key Advantages -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-trophy"></i> Key Advantages of Oria</h2>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> <strong>Knowledge-First Design:</strong> Built specifically for educational assistance and information delivery.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Integrated Visual Tools:</strong> Generate images and videos directly within conversations using simple commands.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>DeepX Mode:</strong> Enhanced research capabilities with URL and social media video analysis.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Clean Interface:</strong> Distraction-free design that keeps you focused on learning.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Local Storage:</strong> Conversation history stored locally on your device for improved privacy.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Cross-Platform:</strong> Available as a web app, mobile app, and website for seamless access.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Specialized Training:</strong> Trained specifically for knowledge integrity rather than being a generalist.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Feedback System:</strong> Like/dislike functionality for images and videos helps improve future generations.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Contextual Understanding:</strong> Better comprehension of educational queries and learning contexts.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Daily Suggestions:</strong> Fresh learning topics and conversation starters updated daily.</li>
+                    </ul>
+                </div>
+
+                <!-- Oria Models Comparison -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-microchip"></i> Oria Models Comparison</h2>
+                    
+                    <div class="model-card">
+                        <div class="model-header">
+                            <div>
+                                <div class="model-badge badge-current">CURRENT</div>
+                                <h3 class="model-title">Oria XSS 4Q</h3>
+                            </div>
+                        </div>
+                        <p class="model-description">The latest version of Oria with enhanced knowledge processing. Features advanced reasoning and contextual understanding.</p>
+                        <ul class="model-features">
+                            <li><i class="fas fa-check"></i> Knowledge-focused AI system</li>
+                            <li><i class="fas fa-check"></i> Fast context processing</li>
+                            <li><i class="fas fa-check"></i> Improved reasoning capabilities</li>
+                            <li><i class="fas fa-check"></i> Image generation with the /image command</li>
+                            <li><i class="fas fa-check"></i> Video generation with the /video command</li>
+                            <li><i class="fas fa-check"></i> DeepX mode for enhanced research</li>
+                            <li><i class="fas fa-check"></i> URL and social media content analysis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="model-card">
+                        <div class="model-header">
+                            <div>
+                                <div class="model-badge badge-coming-soon">COMING SOON</div>
+                                <h3 class="model-title">Oria XQS 4S</h3>
+                            </div>
+                        </div>
+                        <p class="model-description">Coming in January 2026. Our most advanced AI assistant with revolutionary capabilities.</p>
+                        <ul class="model-features">
+                            <li><i class="fas fa-star"></i> Multimodal processing capabilities</li>
+                            <li><i class="fas fa-star"></i> 1M token context window</li>
+                            <li><i class="fas fa-star"></i> Real-time processing with no delays</li>
+                            <li><i class="fas fa-star"></i> Advanced reasoning and inference</li>
+                            <li><i class="fas fa-star"></i> Enhanced multimedia generation</li>
+                            <li><i class="fas fa-star"></i> Direct integration with learning resources</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="model-card">
+                        <div class="model-header">
+                            <div>
+                                <div class="model-badge badge-legacy">LEGACY</div>
+                                <h3 class="model-title">Oria XQS 2S</h3>
+                            </div>
+                        </div>
+                        <p class="model-description">Previous version of Oria developed by Xexis. This version laid the foundation for Oria's knowledge-focused approach.</p>
+                        <ul class="model-features">
+                            <li><i class="fas fa-history"></i> Basic knowledge assistance</li>
+                            <li><i class="fas fa-history"></i> Limited context processing</li>
+                            <li><i class="fas fa-history"></i> Text-only responses</li>
+                            <li><i class="fas fa-history"></i> Early version of the learning-focused UI</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Technology Behind Oria -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-cogs"></i> The Technology Behind Oria</h2>
+                    <p class="about-paragraph">
+                        Oria is built on advanced language models specifically fine-tuned for educational and knowledge-centric applications. Unlike general-purpose AI systems, Oria's training emphasizes:
+                    </p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> <strong>Knowledge Accuracy:</strong> Extensive training on verified, high-quality educational content.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Context Retention:</strong> Improved ability to maintain thread of complex educational discussions.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Specialized APIs:</strong> Integration with image and video generation services optimized for educational content.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Responsive Design:</strong> Cross-platform compatibility with consistent experience across web and mobile.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Local-First Storage:</strong> Prioritizing user privacy by keeping conversation data on your device.</li>
+                    </ul>
+                    <p class="about-paragraph">
+                        The DeepX mode represents a significant technological advancement, enabling Oria to perform deeper analysis of various content types, including URLs and social media videos, providing more comprehensive and thorough responses.
+                    </p>
+                </div>
+
+                <!-- Our Mission -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-bullseye"></i> Our Mission</h2>
+                    <p class="about-paragraph">
+                        At Xexis, we believe that AI should serve as a tool for knowledge enhancement and learning acceleration. Our mission with Oria is to create the most effective AI assistant specifically designed for educational purposes.
+                    </p>
+                    <p class="about-paragraph">
+                        We're committed to continuous improvement, regularly updating Oria with new features while maintaining our core focus on knowledge delivery. Our development roadmap is guided by user feedback and educational best practices.
+                    </p>
+                    <p class="about-paragraph">
+                        As we develop future versions of Oria, we remain dedicated to our founding principle: creating AI that empowers users through knowledge, presented clearly and accessibly.
+                    </p>
+                </div>
+
+                <!-- Version History -->
+                <div class="about-section">
+                    <h2 class="about-section-title"><i class="fas fa-code-branch"></i> Version History</h2>
+                    <p class="about-paragraph">
+                        We regularly update Oria with new features and improvements based on user feedback and technological advancements. Each version introduces significant enhancements to our AI models and user experience.
+                    </p>
+                    
+                    <div class="version-history-card">
+                        <div class="version-history-header">
+                            <div class="version-number">v5.2025</div>
+                            <div class="version-date">May 2025</div>
+                            <div class="version-badge badge-current">CURRENT</div>
+                        </div>
+                        <div class="model-indicator">Model: <span class="model-name">Oria XSS 4Q</span> <span class="model-note">(Transitioned from XSS 2S)</span></div>
+                        <ul class="version-changelog">
+                            <li><i class="fas fa-rocket"></i> Upgraded to the more powerful 4Q architecture</li>
+                            <li><i class="fas fa-plus-circle"></i> Added video generation capability with /video command</li>
+                            <li><i class="fas fa-plus-circle"></i> Implemented advanced DeepX mode for enhanced research</li>
+                            <li><i class="fas fa-plus-circle"></i> Added automatic deletion of blank chat entries</li>
+                            <li><i class="fas fa-plus-circle"></i> Added theme-dependent logo in message bubbles</li>
+                            <li><i class="fas fa-plus-circle"></i> Implemented command suggestions with "/" prefix</li>
+                            <li><i class="fas fa-wrench"></i> Fixed chat rename functionality with proper event handling</li>
+                            <li><i class="fas fa-wrench"></i> Improved content display with show more/show less toggles</li>
+                            <li><i class="fas fa-lock"></i> Enhanced privacy and terms documentation</li>
+                            <li><i class="fas fa-info-circle"></i> Preparing for XQS 4S launch in 2026</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="version-history-card">
+                        <div class="version-history-header">
+                            <div class="version-number">v11.2024</div>
+                            <div class="version-date">November 2024</div>
+                        </div>
+                        <div class="model-indicator">Model: <span class="model-name">Oria XSS 4Q and XQS 2S</span></div>
+                        <ul class="version-changelog">
+                            <li><i class="fas fa-rocket"></i> Introduced new XSS 4Q model with advanced capabilities</li>
+                            <li><i class="fas fa-plus-circle"></i> Added image generation with /image command</li>
+                            <li><i class="fas fa-plus-circle"></i> Implemented saved messages functionality</li>
+                            <li><i class="fas fa-plus-circle"></i> Added chat history sidebar with search</li>
+                            <li><i class="fas fa-plus-circle"></i> Introduced dark and light theme options</li>
+                            <li><i class="fas fa-wrench"></i> Improved mobile responsiveness and touch gestures</li>
+                            <li><i class="fas fa-wrench"></i> Enhanced code formatting and syntax highlighting</li>
+                            <li><i class="fas fa-wrench"></i> Fixed message rendering issues for long content</li>
+                            <li><i class="fas fa-wrench"></i> Optimized performance for faster response times</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="version-history-card">
+                        <div class="version-history-header">
+                            <div class="version-number">v5.2024</div>
+                            <div class="version-date">May 2024</div>
+                        </div>
+                        <div class="model-indicator">Model: <span class="model-name">Oria XQS 2S</span></div>
+                        <ul class="version-changelog">
+                            <li><i class="fas fa-rocket"></i> Initial release of Oria XQS 2S model</li>
+                            <li><i class="fas fa-plus-circle"></i> Core conversational AI functionality</li>
+                            <li><i class="fas fa-plus-circle"></i> Basic user interface with chat capabilities</li>
+                            <li><i class="fas fa-plus-circle"></i> Local storage for chat history</li>
+                            <li><i class="fas fa-plus-circle"></i> Text formatting for code and lists</li>
+                            <li><i class="fas fa-plus-circle"></i> Responsive design for mobile and desktop</li>
+                            <li><i class="fas fa-plus-circle"></i> System message notifications</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="version-history-card future-version">
+                        <div class="version-history-header">
+                            <div class="version-number">Coming in 2026</div>
+                            <div class="version-date">The Future of AI</div>
+                            <div class="version-badge badge-coming-soon">COMING SOON</div>
+                        </div>
+                        <div class="model-indicator">Model: <span class="model-name">Oria XQS 4S</span> <span class="model-note">(The All-Time Best AI Ever)</span></div>
+                        <ul class="version-changelog">
+                            <li><i class="fas fa-star"></i> Revolutionary AI architecture with unprecedented capabilities</li>
+                            <li><i class="fas fa-star"></i> Multimodal understanding and generation</li>
+                            <li><i class="fas fa-star"></i> 1M token context window</li>
+                            <li><i class="fas fa-star"></i> Advanced reasoning with expert-level knowledge</li>
+                            <li><i class="fas fa-star"></i> Real-time processing with zero latency</li>
+                            <li><i class="fas fa-star"></i> Enhanced multimedia content creation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Apply saved theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply theme 
+            const darkModeEnabled = localStorage.getItem('darkMode') !== 'disabled';
+            if (darkModeEnabled) {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            }
+            
+            // Set dark theme as default if no theme is set
+            if (!localStorage.getItem('darkMode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            }
+            
+            // Apply custom colors from localStorage
+            const isDarkTheme = localStorage.getItem('darkMode') !== 'disabled';
+            const themePrefix = isDarkTheme ? 'dark' : 'light';
+            
+            // Get all CSS variables 
+            const cssVars = [
+                '--text-color', '--subheading-color', '--placeholder-color',
+                '--primary-color', '--secondary-color', '--secondary-hover-color',
+                '--scrollbar-color', '--border-color', '--divider-color',
+                '--success-color', '--error-color', '--warning-color',
+                '--info-color', '--accent-color', '--button-primary-color'
+            ];
+            
+            // Apply stored colors
+            cssVars.forEach(varName => {
+                const storedColor = localStorage.getItem(`${themePrefix}-${varName}`);
+                if (storedColor) {
+                    document.documentElement.style.setProperty(varName, storedColor);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oria - Terms of Service</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Allow text selection for terms content */
+        .terms-content {
+            -webkit-touch-callout: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        body {
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .app-container {
+            height: 100vh;
+            max-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+        
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 800px;
+                margin: 0 auto;
+                height: 90vh;
+                max-height: 800px;
+                margin-top: 5vh;
+                border-radius: 15px;
+                border: 1px solid var(--border-color);
+            }
+        }
+        
+        .terms-container {
+            padding: 0;
+            overflow: auto;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-color) transparent;
+        }
+        
+        .terms-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .terms-container::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-color);
+            border-radius: 3px;
+        }
+        
+        .terms-container::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        
+        .terms-content {
+            padding: 20px;
+        }
+        
+        .terms-section {
+            margin-bottom: 40px;
+        }
+        
+        .terms-section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .terms-section-title i {
+            color: var(--accent-color);
+        }
+        
+        .terms-paragraph {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        .terms-list {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        
+        .terms-list li {
+            margin-bottom: 10px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .terms-emphasis {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .alert-box {
+            background-color: rgba(var(--accent-rgb), 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+        }
+        
+        .alert-box-title i {
+            color: var(--accent-color);
+        }
+        
+        .alert-box-content {
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .last-updated {
+            font-style: italic;
+            margin-top: 50px;
+            color: var(--subheading-color);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <a onclick="window.history.back()" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="header-center">
+                <h3>Terms of Service</h3>
+            </div>
+            <div class="header-right">
+                <!-- Placeholder to maintain header layout -->
+            </div>
+        </header>
+        
+        <main class="terms-container">
+            <div class="terms-content">
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-file-contract"></i> Agreement Overview</h2>
+                    <p class="terms-paragraph">
+                        Welcome to Oria. These Terms of Service ("Terms") govern your use of the Oria AI assistant service operated by Xexis Technologies ("we", "our", or "us"). By accessing or using Oria, you agree to be bound by these Terms. If you do not agree to these Terms, you may not access or use our service.
+                    </p>
+                    <p class="terms-paragraph">
+                        Please read these Terms carefully before using Oria. Your access to and use of the service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the service.
+                    </p>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-user-check"></i> Eligibility and Accounts</h2>
+                    <p class="terms-paragraph">
+                        To use Oria, you must be at least 13 years of age. By creating an account, you represent and warrant that:
+                    </p>
+                    <ul class="terms-list">
+                        <li>You are at least 13 years of age</li>
+                        <li>You provide accurate and complete registration information</li>
+                        <li>You will maintain the security of your account</li>
+                        <li>You will not share your account with anyone else</li>
+                        <li>You are creating an account for yourself, not someone else</li>
+                    </ul>
+                    <p class="terms-paragraph">
+                        You are responsible for all activities that occur under your account. You must immediately notify us of any unauthorized use of your account.
+                    </p>
+                </section>
+                
+                <div class="alert-box">
+                    <div class="alert-box-title">
+                        <i class="fas fa-exclamation-triangle"></i> Disclaimer of Liability for Illegal Activities
+                    </div>
+                    <div class="alert-box-content">
+                        <strong>Xexis Technologies and Oria explicitly disclaim any responsibility or liability for illegal activities conducted by users through our service.</strong> Users are solely responsible for their interactions with Oria and must ensure their use complies with all applicable laws and regulations. We do not monitor, control, or endorse user inputs or content generated through user requests, and we are not liable for any content that may violate laws or regulations. Any misuse of our service for illegal purposes is strictly prohibited and may result in immediate termination of service without notice and potential legal action.
+                    </div>
+                </div>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-hand-paper"></i> Prohibited Uses</h2>
+                    <p class="terms-paragraph">
+                        You agree not to use Oria:
+                    </p>
+                    <ul class="terms-list">
+                        <li>For any unlawful purpose or to solicit the performance of any illegal activity</li>
+                        <li>To impersonate any person or entity, or falsely state or misrepresent your affiliation with a person or entity</li>
+                        <li>To create, upload, transmit, or distribute any content that infringes on intellectual property rights</li>
+                        <li>To harass, abuse, harm, defame, slander, disparage, intimidate, or discriminate based on gender, sexual orientation, religion, ethnicity, race, age, national origin, or disability</li>
+                        <li>To submit false or misleading information</li>
+                        <li>To upload or transmit viruses, malware, or other harmful code</li>
+                        <li>To collect or track the personal information of others</li>
+                        <li>To interfere with, disrupt, or create an undue burden on our service</li>
+                        <li>To bypass any measures we may use to prevent or restrict access to the service</li>
+                        <li>To generate content that promotes hate speech, violence, self-harm, or sexual content involving minors</li>
+                        <li>To use the service for generating spam, phishing attempts, or scams</li>
+                    </ul>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-copyright"></i> Intellectual Property</h2>
+                    <p class="terms-paragraph">
+                        Oria and its original content, features, and functionality are owned by Xexis Technologies and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
+                    </p>
+                    <h3 style="font-size:18px; margin:15px 0 10px 0;">User-Generated Content</h3>
+                    <p class="terms-paragraph">
+                        When you generate content using Oria:
+                    </p>
+                    <ul class="terms-list">
+                        <li>You retain ownership of content you create using our service</li>
+                        <li>You grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, and distribute your content across our platform</li>
+                        <li>You acknowledge that AI-generated content may have similar outputs for different users</li>
+                        <li>You are responsible for any copyright or intellectual property violations resulting from your use of the content</li>
+                    </ul>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-thumbs-up"></i> Acceptable Use Policy</h2>
+                    <p class="terms-paragraph">
+                        When using Oria, you agree to:
+                    </p>
+                    <ul class="terms-list">
+                        <li>Use the service in a respectful and lawful manner</li>
+                        <li>Not overload or flood the service with excessive requests</li>
+                        <li>Not attempt to circumvent any limitations or restrictions</li>
+                        <li>Not engage in any "scraping," "crawling," or "spidering" of the service</li>
+                        <li>Not use automated systems or software to extract data from the service</li>
+                        <li>Not attempt to gain unauthorized access to any portion of the service</li>
+                    </ul>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-exclamation-circle"></i> Limitation of Liability</h2>
+                    <p class="terms-paragraph">
+                        <span class="terms-emphasis">To the maximum extent permitted by law:</span>
+                    </p>
+                    <ul class="terms-list">
+                        <li>Xexis Technologies shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, resulting from your access to or use of our service.</li>
+                        <li>We provide no warranty or guarantee regarding the accuracy, reliability, or completeness of information provided by Oria.</li>
+                        <li>Oria is provided "as is" without warranties of any kind, either express or implied.</li>
+                        <li>We are not responsible for any content generated through Oria that may be incorrect, inappropriate, offensive, or misleading.</li>
+                        <li>Our total liability for any claims arising from these Terms shall not exceed the amount you paid us to use the service in the past six months (or $10 if no payment was made).</li>
+                    </ul>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-bullhorn"></i> Disclaimer</h2>
+                    <p class="terms-paragraph">
+                        Oria is designed to provide general information and assistance. It should not be relied upon for:
+                    </p>
+                    <ul class="terms-list">
+                        <li>Professional medical, legal, financial, or technical advice</li>
+                        <li>Emergency situations or critical decisions</li>
+                        <li>Information that requires complete accuracy or reliability</li>
+                    </ul>
+                    <p class="terms-paragraph">
+                        Always verify important information from authoritative sources before making decisions based on content generated by Oria.
+                    </p>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-file-invoice-dollar"></i> Service Fees and Payments</h2>
+                    <p class="terms-paragraph">
+                        Some features of Oria may require payment. We reserve the right to:
+                    </p>
+                    <ul class="terms-list">
+                        <li>Modify prices at any time</li>
+                        <li>Offer special promotional offers or subscriptions</li>
+                        <li>Change service tiers and feature availability</li>
+                    </ul>
+                    <p class="terms-paragraph">
+                        All payments are non-refundable except as required by law or at our sole discretion.
+                    </p>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-user-slash"></i> Termination</h2>
+                    <p class="terms-paragraph">
+                        We may terminate or suspend your account immediately, without prior notice or liability, for any reason, including:
+                    </p>
+                    <ul class="terms-list">
+                        <li>Breach of these Terms</li>
+                        <li>Suspected illegal, fraudulent, or abusive activity</li>
+                        <li>At our sole discretion for any reason</li>
+                    </ul>
+                    <p class="terms-paragraph">
+                        Upon termination, your right to use the service will immediately cease. All provisions of these Terms which by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of liability.
+                    </p>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-balance-scale"></i> Governing Law</h2>
+                    <p class="terms-paragraph">
+                        These Terms shall be governed by the laws of Bangladesh, without regard to its conflict of law provisions. You agree to submit to the personal and exclusive jurisdiction of the courts located in Dhaka, Bangladesh, for the resolution of any disputes.
+                    </p>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-edit"></i> Changes to Terms</h2>
+                    <p class="terms-paragraph">
+                        We may modify these Terms at any time by posting the revised terms on our website. Your continued use of the service after any changes constitutes your acceptance of the new Terms. If you do not agree to the new terms, you must stop using the service.
+                    </p>
+                    <p class="terms-paragraph">
+                        We will make reasonable efforts to notify you of any significant changes by email or through a notice on our service.
+                    </p>
+                </section>
+                
+                <section class="terms-section">
+                    <h2 class="terms-section-title"><i class="fas fa-envelope"></i> Contact Information</h2>
+                    <p class="terms-paragraph">
+                        If you have any questions about these Terms, please contact us at:
+                    </p>
+                    <p class="terms-paragraph">
+                        <strong>Xexis Technologies</strong><br>
+                        Dhaka, Bangladesh<br>
+                        <a href="mailto:id.profile.info@gmail.com">id.profile.info@gmail.com</a>
+                    </p>
+                </section>
+                
+                <p class="last-updated">Last Updated: May 15, 2025</p>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply saved theme if any
+            const darkModeEnabled = localStorage.getItem('darkMode') !== 'disabled';
+            if (darkModeEnabled) {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            }
+            
+            // Set dark theme as default if no theme is set
+            if (!localStorage.getItem('darkMode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            }
+        });
+    </script>
+</body>
+</html> 

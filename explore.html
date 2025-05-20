@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oria - Explore</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <style>
+        .explore-container {
+            flex: 1;
+            overflow-y: auto;
+            background-color: var(--primary-color);
+            position: relative;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px;
+            /* Hide scrollbar */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        
+        .explore-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+            width: 0;
+            height: 0;
+        }
+        
+        .explore-section {
+            margin-bottom: 30px;
+        }
+        
+        .explore-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            padding-left: 5px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .explore-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .explore-item {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 16px;
+            transition: transform 0.2s ease;
+            position: relative;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .explore-item:hover {
+            background-color: var(--secondary-hover-color);
+        }
+        
+        .explore-item:active {
+            transform: scale(0.99);
+        }
+        
+        .explore-item-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+        
+        .item-badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .badge-browser {
+            background-color: #4285F4;
+        }
+        
+        .badge-image {
+            background-color: #EA4335;
+        }
+        
+        .badge-movie {
+            background-color: #FBBC05;
+        }
+        
+        .badge-note {
+            background-color: #34A853;
+        }
+        
+        .badge-translator {
+            background-color: #8E44AD;
+        }
+        
+        .badge-soon {
+            background-color: var(--subheading-color);
+        }
+        
+        @media (max-width: 480px) {
+            .explore-container {
+                padding: 15px;
+            }
+            
+            .explore-section-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <a onclick="window.history.back()" class="back-button" style="color: var(--text-color); text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
+            </div>
+            <div class="header-center">
+                <h1 style="font-size: 18px; margin: 0;">Explore Xexis</h1>
+            </div>
+            <div class="header-right">
+                <a href="settings.html" class="settings-button" aria-label="Settings" style="color: var(--text-color);">
+                    <i class="fas fa-cog"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="explore-container">
+            <div class="explore-section">
+                <h2 class="explore-section-title">Featured</h2>
+                <div class="explore-list">
+                    <a href="https://median.co/share/pylolj#apk" target="_blank" class="explore-item">
+                        <span class="item-badge badge-browser">BROWSER</span>
+                        <h3 class="explore-item-title">Clory Browser</h3>
+                    </a>
+
+                    <a href="https://clory-bailey.netlify.app/" target="_blank" class="explore-item">
+                        <span class="item-badge badge-image">IMAGE GEN</span>
+                        <h3 class="explore-item-title">Bailey Image Generation</h3>
+                    </a>
+                    
+                    <a href="https://clory-mdb.netlify.app/" target="_blank" class="explore-item">
+                        <span class="item-badge badge-movie">MOVIES</span>
+                        <h3 class="explore-item-title">Clory Movie Database</h3>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="explore-section">
+                <h2 class="explore-section-title">Tools & Extensions</h2>
+                <div class="explore-list">
+                    <a href="https://clory-docket.netlify.app/" target="_blank" class="explore-item">
+                        <span class="item-badge badge-note">NOTES</span>
+                        <h3 class="explore-item-title">Docket Note</h3>
+                    </a>
+                    
+                    <a href="https://clory-lingo.netlify.app/" target="_blank" class="explore-item">
+                        <span class="item-badge badge-translator">TRANSLATOR</span>
+                        <h3 class="explore-item-title">Lingo Translator</h3>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="explore-section">
+                <h2 class="explore-section-title">Coming Soon</h2>
+                <div class="explore-list">
+                    <a href="#" class="explore-item">
+                        <span class="item-badge badge-soon">COMING SOON</span>
+                        <h3 class="explore-item-title">Music Generation</h3>
+                    </a>
+                    
+                    <a href="#" class="explore-item">
+                        <span class="item-badge badge-soon">COMING SOON</span>
+                        <h3 class="explore-item-title">3D Model Creator</h3>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if body has a theme class, if not add dark-theme as default
+            if (!document.body.classList.contains('dark-theme') && !document.body.classList.contains('light-theme')) {
+                // Check localStorage
+                const darkModeEnabled = localStorage.getItem('darkMode') !== 'disabled';
+                if (darkModeEnabled) {
+                    document.body.classList.add('dark-theme');
+                } else {
+                    document.body.classList.add('light-theme');
+                }
+            }
+            
+            // Add click event to explore items with '#' href (coming soon items)
+            const comingSoonItems = document.querySelectorAll('.explore-item[href="#"]');
+            comingSoonItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent the hash change
+                    const title = this.querySelector('.explore-item-title').textContent;
+                    showNotification(`${title} - Coming soon!`);
+                });
+            });
+            
+            // Function to show a notification
+            function showNotification(message, isError = false) {
+                const notification = document.createElement('div');
+                notification.className = 'message system-message';
+                if (isError) notification.classList.add('error');
+                
+                const content = document.createElement('span');
+                content.className = 'system-message-content';
+                content.textContent = message;
+
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'system-message-close';
+                closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                closeBtn.addEventListener('click', () => {
+                    notification.remove();
+                });
+                
+                notification.appendChild(content);
+                notification.appendChild(closeBtn);
+                document.body.appendChild(notification);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        notification.classList.add('hiding');
+                        setTimeout(() => notification.remove(), 300);
+                    }
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html> 

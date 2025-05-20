@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oria - Help & FAQ</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Allow text selection for FAQ content */
+        .faq-content {
+            -webkit-touch-callout: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        /* Improve input field behavior on mobile */
+        input, textarea, select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0;
+        }
+        
+        body {
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Add active state styles for improved mobile feedback */
+        button:active, .accordion-button:active {
+            opacity: 0.7;
+            transition: opacity 0.1s;
+        }
+        
+        .app-container {
+            height: 100vh;
+            max-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+        
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 800px;
+                margin: 0 auto;
+                height: 90vh;
+                max-height: 800px;
+                margin-top: 5vh;
+                border-radius: 15px;
+                border: 1px solid var(--border-color);
+            }
+        }
+        
+        .help-container {
+            padding: 0;
+            overflow: auto;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-color) transparent;
+        }
+        
+        .help-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .help-container::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-color);
+            border-radius: 3px;
+        }
+        
+        .help-container::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        
+        /* Remove outlines from buttons and interactive elements */
+        button, a, input {
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        button::-moz-focus-inner {
+            border: 0;
+        }
+        
+        a:focus, button:focus, input:focus {
+            outline: none !important;
+        }
+        
+        
+        .help-content {
+            padding: 20px;
+        }
+        
+        .help-section {
+            margin-bottom: 30px;
+        }
+        
+        .help-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .help-section-title i {
+            color: var(--accent-color);
+        }
+        
+        .faq-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .faq-item {
+            margin-bottom: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: var(--secondary-color);
+        }
+        
+        .accordion-button {
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            cursor: pointer;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        .accordion-button:hover {
+            background-color: var(--secondary-hover-color);
+        }
+        
+        .accordion-button i {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .accordion-button i {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: var(--primary-color);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .faq-item.active .accordion-content {
+            max-height: 100%;
+        }
+        
+        .accordion-content-inner {
+            padding: 20px;
+            color: var(--text-color);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .search-container {
+            position: relative;
+            flex-grow: 1;
+            margin-right: 20px;
+            max-width: 60%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            font-size: 14px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .search-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+        }
+        
+        /* Mobile optimization for search */
+        @media (max-width: 768px) {
+            .search-container {
+                max-width: 100%;
+                margin: 10px 20px;
+            }
+            
+            .search-input {
+                font-size: 16px; /* Prevents iOS zoom on focus */
+                padding: 12px 35px 12px 12px;
+            }
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--subheading-color);
+            pointer-events: none; /* Makes sure clicks pass through to the input */
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0;
+            color: var(--text-color);
+            font-weight: 500;
+            text-decoration: none;
+            padding: 15px 20px;
+            background-color: transparent;
+            border-bottom: none;
+            flex-shrink: 0;
+        }
+        
+        .back-button:hover {
+            color: var(--accent-color);
+        }
+        
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .category-tab.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: var(--subheading-color);
+        }
+        
+        .no-results i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: var(--border-color);
+        }
+        
+        .no-results p {
+            margin: 5px 0;
+        }
+        
+        /* Header styling */
+        .help-header {
+            background-color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        /* Need Help Floating Button */
+        .need-help-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .need-help-button:hover {
+            transform: scale(1.1);
+            background-color: var(--button-primary-color);
+        }
+        
+        .need-help-button i {
+            font-size: 24px;
+        }
+        
+        /* Mobile responsiveness for header */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .back-button {
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .search-container {
+                margin: 10px 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="help-header">
+            <div class="header-top">
+                <a onclick="history.back()" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Oria</span>
+                </a>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all">All Topics</button>
+                <button class="category-tab" data-category="general">General</button>
+                <button class="category-tab" data-category="features">Features</button>
+                <button class="category-tab" data-category="account">Account</button>
+                <button class="category-tab" data-category="privacy">Privacy</button>
+                <button class="category-tab" data-category="troubleshooting">Troubleshooting</button>
+            </div>
+        </div>
+
+        <!-- Main Help Content -->
+        <main class="help-container">
+            <div class="help-content">
+                <!-- General Section -->
+                <div class="help-section" data-category="general">
+                    <h2 class="help-section-title"><i class="fas fa-info-circle"></i> General Information</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What is Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria is an AI assistant designed to help you with knowledge-based tasks. It's created by Xexis and focuses on providing accurate, helpful information while maintaining professional boundaries. Oria can answer questions on a wide range of topics, explain complex concepts, and assist with various informational needs.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Who created Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria was created by Xexis, a company founded by Bappi Bhadro. The team at Xexis developed Oria as an AI assistant focused specifically on knowledge and learning assistance. Unlike other AI models trained by different companies, Oria has been developed with a unique approach to provide accurate and helpful information.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What is Oria XSS 4Q?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria XSS 4Q is the current version of Oria. This version features enhanced knowledge processing capabilities, advanced reasoning, and improved contextual understanding. It's designed to provide more accurate and helpful information than previous versions. The "XSS 4Q" designation refers to the model architecture and version number in Xexis's development sequence.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Is Oria free to use?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, Oria is currently free to use. You can access all of Oria's knowledge capabilities without any subscription or payment. However, creating an account is recommended to save your chat history and personalize your experience. Future premium features may be introduced, but the core functionality will remain accessible to all users.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What devices can I use Oria on?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria is a web-based application that works on a variety of devices including:</p>
+                                    <ul>
+                                        <li>Desktop computers (Windows, Mac, Linux)</li>
+                                        <li>Smartphones (iOS, Android)</li>
+                                        <li>Tablets</li>
+                                    </ul>
+                                    <p>You can access Oria through most modern web browsers like Chrome, Safari, Firefox, and Edge. The interface is responsive and adapts to different screen sizes for optimal user experience.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What's the difference between Oria and other AI assistants?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria differentiates itself from other AI assistants in several key ways:</p>
+                                    <ul>
+                                        <li><strong>Knowledge Focus:</strong> Oria is specifically designed for knowledge sharing and educational purposes</li>
+                                        <li><strong>Unique Training:</strong> Developed by Xexis with its own approach to AI learning</li>
+                                        <li><strong>Clean Interface:</strong> Simplified design focused on clear information delivery</li>
+                                        <li><strong>Privacy-Oriented:</strong> Conversations are stored locally on your device</li>
+                                        <li><strong>Specialized Features:</strong> Tools like the country selector with map integration</li>
+                                    </ul>
+                                    <p>Unlike some other assistants that try to be all-purpose tools, Oria focuses on doing one thing exceptionally well: providing clear, accurate knowledge.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Does Oria require an internet connection?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, Oria requires an active internet connection to function. This is because:</p>
+                                    <ul>
+                                        <li>The AI model that powers Oria's responses runs on cloud servers</li>
+                                        <li>Features like the country information and map display require API access</li>
+                                        <li>Account authentication and verification need internet connectivity</li>
+                                    </ul>
+                                    <p>If your internet connection is interrupted, Oria will attempt to reconnect automatically when the connection is restored. However, you'll still be able to view previously loaded chat history while offline.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What languages does Oria support?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Currently, Oria primarily supports English for optimal performance and accuracy. However, Oria can understand and respond to queries in several other languages, including:</p>
+                                    <ul>
+                                        <li>Bengali</li>
+                                        <li>English</li>
+                                        <li>Hindi</li>
+                                        <li>Korean</li>
+                                        <li>Japanese</li>
+                                        <li>French</li>
+                                        <li>German</li>
+                                        <li>Portuguese</li>
+                                        <li>Italian</li>
+                                    </ul>
+                                    <p>Support for additional languages is continuously being improved. For the best experience, we recommend using English when possible, especially for complex or technical questions.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What is Oria's "Advanced Mode"?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Advanced Mode (now called DeepX) is a special interaction mode in Oria that offers:</p>
+                                    <ul>
+                                        <li>Short, precise, detailed responses</li>
+                                        <li>Responses focused specifically on what you ask</li>
+                                        <li>Professional knowledge delivery</li>
+                                        <li>Clear, focused communication</li>
+                                        <li>Intelligent learning support</li>
+                                    </ul>
+                                    <p>DeepX mode can be manually activated by toggling the DeepX switch in the tools popup. When active, you'll notice the chat subtitle and input placeholder change to indicate DeepX is enabled. This mode also unlocks URL analysis and social media video analysis capabilities.</p>
+                                    <p>For more details on using DeepX mode, see the "What is DeepX mode and how do I use it?" question in this help section.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Is there a mobile app for Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria is available on multiple platforms to meet your needs:</p>
+                                    <ul>
+                                        <li><strong>Web App:</strong> The full-featured web application accessible from any browser at <a href="https://oria-mobile.netlify.app/" target="_blank">oria.ai</a></li>
+                                        <li><strong>Mobile App:</strong> Native applications for iOS and Android with enhanced mobile features</li>
+                                    </ul>
+
+                                    <p>The mobile apps offer additional features like:</p>
+                                    <ul>
+                                        <li>System-level integrations with your device</li>
+                                        <li>Push notifications for important updates</li>
+                                        <li>Better performance and battery optimization</li>
+                                    </ul>
+                                    <p>If you prefer not to install the app, you can still access the web app through your mobile browser and add it to your home screen:</p>
+                                    <p><strong>For iOS:</strong> In Safari, tap the share icon and select "Add to Home Screen"</p>
+                                    <p><strong>For Android:</strong> In Chrome, tap the menu (three dots) and select "Add to Home Screen"</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Features Section -->
+                <div class="help-section" data-category="features">
+                    <h2 class="help-section-title"><i class="fas fa-star"></i> Features</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What can Oria do?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria can assist you with a wide range of knowledge-based tasks, including:</p>
+                                    <ul>
+                                        <li>Answering questions on various topics</li>
+                                        <li>Explaining complex concepts in simple terms</li>
+                                        <li>Providing information about countries and locations</li>
+                                        <li>Giving summaries on historical events, scientific concepts, and more</li>
+                                        <li>Offering educational content for learning purposes</li>
+                                        <li>Creating structured information on topics you're interested in</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I use the Location feature?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria's Location feature allows you to get information about countries with an integrated map display. Here's how to use it:</p>
+                                    <ol>
+                                        <li>Click the plus (+) button next to the input field</li>
+                                        <li>Select the "Location" option</li>
+                                        <li>In the country selector popup, you can:</li>
+                                        <ul>
+                                            <li>Search for a specific country</li>
+                                            <li>Browse countries alphabetically</li>
+                                            <li>Use the alphabet navigation at the top</li>
+                                        </ul>
+                                        <li>Click on a country to see its location on a map</li>
+                                        <li>Click "Select Country" to ask Oria about that country</li>
+                                    </ol>
+                                    <p>The feature uses OpenStreetMap to display country locations without requiring an API key, ensuring reliability and privacy.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I upload and use images with Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>You can upload images to Oria for analysis or reference. Here's how:</p>
+                                    <ol>
+                                        <li>Click the plus (+) button next to the input field</li>
+                                        <li>Select "Image" from the tools menu</li>
+                                        <li>Choose an image from your device (max size: 5MB)</li>
+                                        <li>Once uploaded, you'll see a preview of the image</li>
+                                        <li>Type your question about the image (optional)</li>
+                                        <li>Click the send button</li>
+                                    </ol>
+                                    <p>Oria will analyze the image and respond with relevant information. This feature is useful for identifying objects, analyzing charts/graphs, or getting information about what's shown in the image.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I save a conversation with Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria automatically saves your conversation history locally on your device. Additionally, you can save specific messages for easy access later:</p>
+                                    <ol>
+                                        <li>Hover over any message from Oria to reveal the action buttons</li>
+                                        <li>Click the bookmark icon (save button)</li>
+                                        <li>The message and your previous query will be saved</li>
+                                        <li>Access saved messages by clicking on the bookmark icon in the sidebar</li>
+                                    </ol>
+                                    <p>This feature is useful for keeping important information or responses that you want to reference later. Saved messages are stored in the "Saved" section of the app.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I start a new chat?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>There are multiple ways to start a new chat in Oria:</p>
+                                    <ul>
+                                        <li><strong>Method 1:</strong> Click the pen icon (new chat button) in the top right corner of the header</li>
+                                        <li><strong>Method 2:</strong> Open the sidebar by clicking the menu button and then click "New Chat"</li>
+                                        <li><strong>Method 3:</strong> If you're in an existing conversation, finish it first by sending at least one message</li>
+                                    </ul>
+                                    <p>Starting a new chat will clear the current conversation and create a fresh chat session. Don't worry - your previous conversation will be saved in your chat history and can be accessed from the sidebar.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What are suggestion buttons and how do I use them?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Suggestion buttons are pre-defined topics or questions that appear at the bottom of the screen when you haven't started a conversation yet. They help you:</p>
+                                    <ul>
+                                        <li>Get ideas for what to ask Oria</li>
+                                        <li>Quickly start conversations on common topics</li>
+                                        <li>Discover Oria's capabilities</li>
+                                    </ul>
+                                    <p>To use them, simply click on any suggestion button that interests you. Oria will automatically use that topic as your first message and respond accordingly. The suggestions change daily to offer fresh ideas and cover different topics.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I share Oria's responses?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>You can easily share Oria's responses with others:</p>
+                                    <ol>
+                                        <li>Hover over the message you want to share</li>
+                                        <li>Click the share icon (first button that appears)</li>
+                                        <li>In the share popup, choose from several options:</li>
+                                        <ul>
+                                            <li>Facebook</li>
+                                            <li>WhatsApp</li>
+                                            <li>Messenger</li>
+                                            <li>Email</li>
+                                            <li>More (uses your device's native sharing options)</li>
+                                        </ul>
+                                    </ol>
+                                    <p>Alternatively, you can copy the text by clicking the copy icon (second button) and then paste it wherever you want to share it.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I change themes in Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria offers both dark and light themes to suit your preference:</p>
+                                    <ol>
+                                        <li>Click the settings icon in the top right corner</li>
+                                        <li>In the Settings page, find the "Appearance" section</li>
+                                        <li>Choose between "Dark" and "Light" themes</li>
+                                        <li>Your selection will be applied immediately and saved for future sessions</li>
+                                    </ol>
+                                    <p>You can also customize colors further in the "Color Palette" section of Settings. This allows you to personalize various elements of the interface to your liking.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What are the keyboard shortcuts in Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria supports several keyboard shortcuts to enhance your productivity:</p>
+                                    <ul>
+                                        <li><strong>Enter:</strong> Send message</li>
+                                        <li><strong>Shift + Enter:</strong> Add a new line in your message</li>
+                                        <li><strong>Up Arrow:</strong> Edit your last message (if no response yet)</li>
+                                        <li><strong>Ctrl/Cmd + /:</strong> Focus on the input field</li>
+                                        <li><strong>Esc:</strong> Close popups or dialogs</li>
+                                        <li><strong>Ctrl/Cmd + N:</strong> Start a new chat</li>
+                                    </ul>
+                                    <p>These shortcuts work on desktop browsers. Mobile devices primarily use touch interactions instead of keyboard shortcuts.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Can I rename my chat conversations?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, you can rename your chat conversations for better organization:</p>
+                                    <ol>
+                                        <li>Open the sidebar by clicking the menu button</li>
+                                        <li>Find the chat you want to rename in the history</li>
+                                        <li>Click the pencil icon on that chat</li>
+                                        <li>Enter a new title for the chat</li>
+                                        <li>Press Enter or click the checkmark to save</li>
+                                    </ol>
+                                    <p>By default, chats are titled based on your first message. Renaming them helps you find specific conversations more easily, especially if you have many chats on similar topics.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <!-- New FAQ items for image generation, video generation, DeepX mode, etc. -->
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I generate images with the /image command?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria allows you to generate images directly in the chat using the <span style="color: #4285f4; font-weight: bold;">/image</span> command:</p>
+                                    <ol>
+                                        <li>Type <span style="color: #4285f4; font-weight: bold;">/image</span> followed by your description</li>
+                                        <li>For example: <span style="color: #4285f4; font-weight: bold;">/image</span> a beautiful sunset over mountains</li>
+                                        <li>Press Enter to send the command</li>
+                                        <li>Oria will generate and display the image based on your description</li>
+                                    </ol>
+                                    <p>The generated images will include action buttons in the top-right corner that allow you to download the image or view it in full size. You can also like or dislike the image to provide feedback.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I generate videos with the /video command?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Similar to image generation, Oria allows you to generate videos using the <span style="color: #ea4335; font-weight: bold;">/video</span> command:</p>
+                                    <ol>
+                                        <li>Type <span style="color: #ea4335; font-weight: bold;">/video</span> followed by your description</li>
+                                        <li>For example: <span style="color: #ea4335; font-weight: bold;">/video</span> waves crashing on a beach</li>
+                                        <li>Press Enter to send the command</li>
+                                        <li>Oria will find and display a video matching your description</li>
+                                    </ol>
+                                    <p>The videos will appear with playback controls, and you can like or dislike them to provide feedback. You can also download videos or view them in full screen using the action buttons in the top-right corner.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What is DeepX mode and how do I use it?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>DeepX is an enhanced research mode that provides more detailed and thorough responses:</p>
+                                    <ol>
+                                        <li>Click the plus (+) button next to the input field to open the popup</li>
+                                        <li>Look for the DeepX toggle switch in the popup</li>
+                                        <li>Toggle the switch to enable DeepX mode</li>
+                                    </ol>
+                                    <p>When DeepX mode is enabled:</p>
+                                    <ul>
+                                        <li>You'll notice the input placeholder changes to "Ask anything (DeepX mode)..."</li>
+                                        <li>The empty chat subtitle changes to indicate DeepX is active</li>
+                                        <li>Responses will be more detailed and thoroughly researched</li>
+                                        <li>URL and social media video analysis capabilities are unlocked</li>
+                                    </ul>
+                                    <p>DeepX mode is perfect for complex questions or when you need more comprehensive information. Your DeepX preference is saved between sessions.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What URL analysis capabilities does DeepX mode provide?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>When DeepX mode is enabled, Oria gains the ability to analyze URLs shared in the chat:</p>
+                                    <ul>
+                                        <li>Share any URL in the chat while DeepX mode is active</li>
+                                        <li>Oria will extract key information from the webpage</li>
+                                        <li>For articles, you'll get summaries of the content</li>
+                                        <li>For product pages, you'll get details about the product</li>
+                                        <li>For news sites, you'll get context about the article</li>
+                                    </ul>
+                                    <p>This feature helps you quickly understand website content without having to visit the site or read through everything. It's especially useful for research, comparison shopping, or staying informed about current events.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How does social media video analysis work in DeepX mode?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>When DeepX mode is enabled, Oria can analyze videos from social media platforms:</p>
+                                    <ol>
+                                        <li>Share a link to a video from platforms like YouTube, TikTok, Instagram, etc.</li>
+                                        <li>Oria will analyze the video content and provide insights</li>
+                                        <li>You'll receive information about the video's topic, key moments, and context</li>
+                                    </ol>
+                                    <p>This feature is useful for:</p>
+                                    <ul>
+                                        <li>Understanding what a video is about without watching it</li>
+                                        <li>Finding specific information within a video</li>
+                                        <li>Getting context about viral or trending content</li>
+                                        <li>Fact-checking video claims</li>
+                                    </ul>
+                                    <p>Note that the analysis is based on available metadata and content recognition technology, so accuracy may vary depending on the video.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I like or dislike generated images and videos?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria allows you to provide feedback on generated images and videos through like/dislike buttons:</p>
+                                    <ol>
+                                        <li>Generate an image or video using the appropriate command</li>
+                                        <li>Look for the message actions at the bottom of the content</li>
+                                        <li>Click the thumbs-up icon to like the content</li>
+                                        <li>Click the thumbs-down icon to dislike the content</li>
+                                    </ol>
+                                    <p>Your feedback is saved locally and helps personalize your experience. Liked content may be given preference in future generations, while disliked styles will be avoided. This feature uses localStorage to remember your preferences between sessions.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Can I download the images and videos generated by Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, you can download any image or video generated in your chat:</p>
+                                    <ol>
+                                        <li>Hover over the image or video to reveal the action buttons in the top-right corner</li>
+                                        <li>Click the download icon (down arrow)</li>
+                                        <li>The file will be saved to your default downloads folder</li>
+                                    </ol>
+                                    <p>For videos, you can also:</p>
+                                    <ol>
+                                        <li>Right-click on the video and select "Save Video As..." from the context menu</li>
+                                        <li>Choose a location on your device to save the video</li>
+                                    </ol>
+                                    <p>Downloaded content is for personal use only. Please respect copyright and usage rights for any generated content.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What image types and styles can I generate with the /image command?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>The <span style="color: #4285f4; font-weight: bold;">/image</span> command supports a wide variety of image types and styles:</p>
+                                    <p><strong>Image Types:</strong></p>
+                                    <ul>
+                                        <li>Landscapes and nature scenes</li>
+                                        <li>Abstract and conceptual imagery</li>
+                                        <li>Object illustrations</li>
+                                        <li>Scenes with multiple elements</li>
+                                        <li>Artistic interpretations</li>
+                                    </ul>
+                                    <p><strong>Tips for better results:</strong></p>
+                                    <ul>
+                                        <li>Be specific in your descriptions</li>
+                                        <li>Include details about style, mood, lighting, and composition</li>
+                                        <li>Use adjectives to clarify the look you want</li>
+                                        <li>Try different prompts if the first result isn't what you expected</li>
+                                    </ul>
+                                    <p>For example, instead of just <span style="color: #4285f4; font-weight: bold;">/image</span> mountain, try <span style="color: #4285f4; font-weight: bold;">/image</span> snow-capped mountain at sunset with dramatic clouds and golden light.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What video types can I generate with the /video command?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>The <span style="color: #ea4335; font-weight: bold;">/video</span> command can generate various types of videos:</p>
+                                    <p><strong>Video Types:</strong></p>
+                                    <ul>
+                                        <li>Nature scenes (beaches, forests, mountains, etc.)</li>
+                                        <li>Urban environments and cityscapes</li>
+                                        <li>Animal footage</li>
+                                        <li>Time-lapse sequences</li>
+                                        <li>Various activities and events</li>
+                                    </ul>
+                                    <p><strong>Tips for better results:</strong></p>
+                                    <ul>
+                                        <li>Be specific about what you want to see</li>
+                                        <li>Include motion descriptions (e.g., "flowing water," "birds flying")</li>
+                                        <li>Specify the setting or environment</li>
+                                        <li>Mention if you want slow-motion or time-lapse</li>
+                                    </ul>
+                                    <p>For example, instead of just <span style="color: #ea4335; font-weight: bold;">/video</span> city, try <span style="color: #ea4335; font-weight: bold;">/video</span> busy Tokyo intersection at night with glowing neon signs and people crossing.</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Are there any usage limits for image and video generation?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>While Oria strives to provide unlimited access to features, there may be some practical limitations:</p>
+                                    <ul>
+                                        <li>Image generation: Currently limited to 50 images per day per user</li>
+                                        <li>Video generation: Currently limited to 25 videos per day per user</li>
+                                        <li>Image size: Generated images are provided in standard resolution</li>
+                                        <li>Video length: Generated videos are typically 10-30 seconds in length</li>
+                                    </ul>
+                                    <p>These limits help ensure fair usage and system stability. Premium accounts may have higher limits in the future. If you reach your daily limit, you'll receive a message indicating that you've used all your generations for the day, and the limit will reset at midnight UTC.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Account Section -->
+                <div class="help-section" data-category="account">
+                    <h2 class="help-section-title"><i class="fas fa-user-circle"></i> Account</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I create an Oria account?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>To create an Oria account:</p>
+                                    <ol>
+                                        <li>Click on the user icon in the top right corner</li>
+                                        <li>Select "Sign Up" in the authentication dialog</li>
+                                        <li>Add a profile picture (required)</li>
+                                        <li>Enter your username</li>
+                                        <li>Enter your Gmail address (only Gmail is currently supported)</li>
+                                        <li>Create a secure password</li>
+                                        <li>Click "Sign Up"</li>
+                                        <li>Check your email for a verification code and enter it when prompted</li>
+                                    </ol>
+                                    <p>After verification, you can sign in with your new account.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Why do I need to create an account?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>While you can use some basic features of Oria without an account, creating one provides several benefits:</p>
+                                    <ul>
+                                        <li>Persistent chat history across devices</li>
+                                        <li>Access to saved messages and favorites</li>
+                                        <li>Personalized experience based on your preferences</li>
+                                        <li>Ability to customize settings and themes</li>
+                                        <li>Enhanced security for your conversations</li>
+                                        <li>Access to future premium features</li>
+                                    </ul>
+                                    <p>An account ensures that your data and preferences are saved securely and can be accessed whenever you use Oria, regardless of the device you're using.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Why does Oria only support Gmail accounts?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Currently, Oria only supports Gmail accounts (@gmail.com) for user registration for several reasons:</p>
+                                    <ul>
+                                        <li>Reliable email verification process</li>
+                                        <li>Enhanced security features</li>
+                                        <li>Simplified authentication system during beta phase</li>
+                                        <li>Wider compatibility with planned future features</li>
+                                    </ul>
+                                    <p>Support for additional email providers is planned for future updates. If you don't have a Gmail account, you can create one for free at <a href="https://mail.google.com" target="_blank">mail.google.com</a> to use with Oria.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I reset my password?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If you've forgotten your password, follow these steps to reset it:</p>
+                                    <ol>
+                                        <li>Navigate to the Settings page by clicking the settings icon</li>
+                                        <li>Scroll down to the "Account" section</li>
+                                        <li>Find "Forgot Password?" and click on "Contact Support"</li>
+                                        <li>This will open your default email client with a pre-filled email</li>
+                                        <li>Complete any additional information and send the email</li>
+                                        <li>The support team will verify your identity and help reset your password</li>
+                                    </ol>
+                                    <p>For security reasons, password resets are handled manually by our support team to ensure that only legitimate account owners can reset passwords.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I edit my profile information?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>To edit your profile information:</p>
+                                    <ol>
+                                        <li>Click on your profile picture in the top right corner</li>
+                                        <li>Select "Edit Profile" from the dropdown menu</li>
+                                        <li>In the Edit Profile dialog, you can:</li>
+                                        <ul>
+                                            <li>Change your profile picture by clicking on the current image</li>
+                                            <li>Update your username</li>
+                                        </ul>
+                                        <li>Click "Save Changes" to update your profile</li>
+                                    </ol>
+                                    <p>Note that your email address cannot be changed directly. If you need to change your email, please contact support through the Settings page.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I log out of my account?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>To log out of your Oria account:</p>
+                                    <ol>
+                                        <li>Click on your profile picture in the top right corner</li>
+                                        <li>Select "Sign Out" from the dropdown menu</li>
+                                        <li>Confirm that you want to sign out when prompted</li>
+                                    </ol>
+                                    <p>After signing out, you'll return to the login screen. For security reasons, especially on shared or public devices, always remember to log out when you're finished using Oria. If you're on your personal device, you can stay logged in for convenience.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Why is a profile picture required?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria requires a profile picture for several reasons:</p>
+                                    <ul>
+                                        <li>Enhanced user experience with visual identification</li>
+                                        <li>Better personalization of the interface</li>
+                                        <li>Easier account recognition in multi-user environments</li>
+                                        <li>Reduced likelihood of automated account creation</li>
+                                    </ul>
+                                    <p>You can use any appropriate image as your profile picture - it could be a photo of yourself, an avatar, or any image that represents you. The image is stored securely and is only used within the Oria application.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Is there a limit to how many accounts I can create?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>While there's no strict limit on the number of accounts you can create, we recommend maintaining a single account for the best experience. Each Gmail address can be associated with one Oria account.</p>
+                                    <p>Creating multiple accounts unnecessarily may lead to:</p>
+                                    <ul>
+                                        <li>Fragmented chat history across accounts</li>
+                                        <li>Complications managing saved content</li>
+                                        <li>Potential confusion with settings and preferences</li>
+                                    </ul>
+                                    <p>If you have a specific need for multiple accounts, please use different email addresses for each account to avoid conflicts.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I delete my account?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>To delete your Oria account:</p>
+                                    <ol>
+                                        <li>Go to the Settings page by clicking the settings icon</li>
+                                        <li>Scroll to the Account section</li>
+                                        <li>Click on "Contact Support" in the Account section</li>
+                                        <li>In the pre-filled email template, change the subject to "Account Deletion Request"</li>
+                                        <li>Provide a brief explanation for why you're deleting your account</li>
+                                        <li>Send the email from your registered email address</li>
+                                    </ol>
+                                    <p>Our support team will process your request within 48 hours. Account deletion is permanent and will remove all your data, including chat history and saved messages. This action cannot be undone.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>What happens to my data if I don't use Oria for a long time?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria accounts and associated data are maintained even during periods of inactivity. If you don't use your account for an extended period:</p>
+                                    <ul>
+                                        <li>Your account remains active and accessible</li>
+                                        <li>Your chat history and saved messages are preserved</li>
+                                        <li>Your settings and preferences remain unchanged</li>
+                                    </ul>
+                                    <p>There is currently no automatic deletion of inactive accounts. However, we may implement an inactivity policy in the future, in which case we would notify all users via email before any data is affected. If you plan to stop using Oria permanently, we recommend properly deleting your account as described in the account deletion FAQ.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Privacy Section -->
+                <div class="help-section" data-category="privacy">
+                    <h2 class="help-section-title"><i class="fas fa-shield-alt"></i> Privacy</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How does Oria handle my data?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria takes your privacy seriously. Here's how your data is handled:</p>
+                                    <ul>
+                                        <li>Chat history is stored locally on your device</li>
+                                        <li>Your conversations are not used to train the AI model</li>
+                                        <li>Account information is stored securely and used only for authentication</li>
+                                        <li>We do not sell or share your personal information with third parties</li>
+                                        <li>You can delete chat history at any time</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Is my conversation with Oria private?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, your conversations with Oria are private. We maintain privacy through several measures:</p>
+                                    <ul>
+                                        <li>Conversations are stored locally on your device using browser localStorage</li>
+                                        <li>Messages are not accessible to other users or Xexis employees</li>
+                                        <li>Your queries are processed by the AI system but not stored permanently on our servers</li>
+                                        <li>We don't use your conversations to train or improve the AI model</li>
+                                        <li>Data in transit is protected using modern encryption standards</li>
+                                    </ul>
+                                    <p>While Oria needs to process your messages to generate responses, this processing is temporary and focused on providing you with accurate answers, not on collecting or analyzing your data.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Does Oria use cookies?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, Oria uses a minimal set of cookies and localStorage for essential functionality:</p>
+                                    <ul>
+                                        <li><strong>Authentication cookies:</strong> To keep you logged in</li>
+                                        <li><strong>Preference cookies:</strong> To remember your theme and settings</li>
+                                        <li><strong>localStorage:</strong> For storing chat history and saved messages</li>
+                                    </ul>
+                                    <p>These are used only for improving your user experience and maintaining your preferences. We do not use third-party tracking cookies or advertising cookies. You can clear browser storage and cookies at any time, though this will reset your preferences and logged-in state.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Can I delete my chat history?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, you can delete your chat history in several ways:</p>
+                                    <p><strong>To delete a specific chat:</strong></p>
+                                    <ol>
+                                        <li>Open the sidebar by clicking the menu button</li>
+                                        <li>Find the chat you want to delete</li>
+                                        <li>Click the trash icon next to that chat</li>
+                                        <li>Confirm deletion when prompted</li>
+                                    </ol>
+                                    <p><strong>To clear all chat history:</strong></p>
+                                    <ol>
+                                        <li>Go to Settings by clicking the settings icon</li>
+                                        <li>Scroll down to the "Privacy" section</li>
+                                        <li>Click "Clear All Chat History"</li>
+                                        <li>Confirm your choice when prompted</li>
+                                    </ol>
+                                    <p>Alternatively, you can clear site data through your browser settings, which will remove all stored data including chat history and preferences.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Does Oria have access to my device files?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>No, Oria does not have access to your device files or system unless you explicitly grant permission for specific actions:</p>
+                                    <ul>
+                                        <li>When you upload an image, you select the specific file to share</li>
+                                        <li>When using location features, you explicitly grant location access</li>
+                                        <li>Oria runs in your browser and has the same limitations as any website</li>
+                                    </ul>
+                                    <p>Oria cannot:</p>
+                                    <ul>
+                                        <li>Access your device's file system without your permission</li>
+                                        <li>Read or modify files on your device</li>
+                                        <li>Access your camera or microphone without explicit permission</li>
+                                        <li>Run in the background when you're not using the application</li>
+                                    </ul>
+                                    <p>All permissions are requested clearly and can be revoked at any time through your browser settings.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Does Oria track my location?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria only accesses your location when you explicitly use the location-related features:</p>
+                                    <ul>
+                                        <li>When you click "Use Current Location" in the country selector</li>
+                                        <li>When you specifically ask Oria about your current location</li>
+                                    </ul>
+                                    <p>In these cases:</p>
+                                    <ul>
+                                        <li>Your browser will ask for permission before sharing location</li>
+                                        <li>You can deny location access and still use all other features</li>
+                                        <li>Location data is used only for the specific request and not stored</li>
+                                        <li>Precise coordinates are converted to general area information</li>
+                                    </ul>
+                                    <p>Oria does not track your location in the background or use location data for any purpose other than fulfilling your specific request.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Is it safe to share personal information with Oria?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>While Oria maintains high security standards, we recommend exercising caution when sharing sensitive personal information:</p>
+                                    <p><strong>Information we recommend NOT sharing:</strong></p>
+                                    <ul>
+                                        <li>Passwords or authentication credentials</li>
+                                        <li>Financial information (credit card numbers, banking details)</li>
+                                        <li>Social security numbers or government identification</li>
+                                        <li>Private health information</li>
+                                        <li>Home addresses or detailed personal schedules</li>
+                                    </ul>
+                                    <p>It's generally safe to share general information like your interests, general location (city/country), or non-sensitive questions and topics. Remember that your conversations are stored locally on your device, so anyone with access to your device could potentially view your chat history.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How secure is my Oria account?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Oria implements several security measures to protect your account:</p>
+                                    <ul>
+                                        <li><strong>Email verification:</strong> All accounts require email verification</li>
+                                        <li><strong>Password security:</strong> Passwords are hashed, not stored in plain text</li>
+                                        <li><strong>Secure connections:</strong> All data is transmitted over HTTPS</li>
+                                        <li><strong>Limited login attempts:</strong> Protection against brute force attacks</li>
+                                        <li><strong>Manual password reset:</strong> Prevents unauthorized account access</li>
+                                    </ul>
+                                    <p>To further enhance your account security:</p>
+                                    <ul>
+                                        <li>Use a strong, unique password</li>
+                                        <li>Don't share your login credentials</li>
+                                        <li>Sign out when using shared devices</li>
+                                        <li>Keep your email account secure (since it's linked to your Oria account)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Does Oria comply with data protection regulations?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>Yes, Oria is designed to comply with major data protection regulations, including:</p>
+                                    <ul>
+                                        <li><strong>GDPR (General Data Protection Regulation):</strong> For users in the European Union</li>
+                                        <li><strong>CCPA (California Consumer Privacy Act):</strong> For users in California</li>
+                                        <li><strong>PIPEDA (Personal Information Protection and Electronic Documents Act):</strong> For users in Canada</li>
+                                    </ul>
+                                    <p>Our approach to compliance includes:</p>
+                                    <ul>
+                                        <li>Minimizing data collection to only what's necessary</li>
+                                        <li>Providing transparency about data usage</li>
+                                        <li>Giving users control over their personal data</li>
+                                        <li>Implementing appropriate security measures</li>
+                                        <li>Facilitating data access and deletion requests</li>
+                                    </ul>
+                                    <p>If you have specific questions about data protection or wish to exercise your rights under these regulations, please contact our support team.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Troubleshooting Section -->
+                <div class="help-section" data-category="troubleshooting">
+                    <h2 class="help-section-title"><i class="fas fa-wrench"></i> Troubleshooting</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Oria isn't responding. What should I do?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If Oria isn't responding, try these troubleshooting steps:</p>
+                                    <ol>
+                                        <li>Check your internet connection</li>
+                                        <li>Refresh the page by pulling down from the top</li>
+                                        <li>Clear your browser cache and cookies</li>
+                                        <li>Try using a different browser</li>
+                                        <li>If the problem persists, please contact support</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>My chat history disappeared. How can I recover it?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If your chat history has disappeared, try these recovery steps:</p>
+                                    <ol>
+                                        <li><strong>Check if you're logged in:</strong> Make sure you're logged into the correct account</li>
+                                        <li><strong>Clear browser data issues:</strong> If you recently cleared browser data, this might have removed locally stored chats</li>
+                                        <li><strong>Check sidebar:</strong> Open the sidebar to see if your chats are still listed but not visible in the main view</li>
+                                        <li><strong>Device check:</strong> If you're using a different device, remember that chat history is device-specific unless you're logged in</li>
+                                        <li><strong>Local storage check:</strong> Some privacy settings or browser extensions might restrict local storage access</li>
+                                    </ol>
+                                    <p>Unfortunately, if none of these steps work, the chat history may not be recoverable. To prevent future loss, consider:</p>
+                                    <ul>
+                                        <li>Using the save feature for important information</li>
+                                        <li>Logging in to access chats across devices</li>
+                                        <li>Not using incognito/private browsing mode (which doesn't preserve localStorage)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>The map feature isn't working properly. How can I fix it?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If you're experiencing issues with the map feature, try these solutions:</p>
+                                    <ol>
+                                        <li><strong>Check internet connection:</strong> Maps require a stable connection to load properly</li>
+                                        <li><strong>Allow iframe content:</strong> Make sure your browser isn't blocking iframe content (check security settings or extensions)</li>
+                                        <li><strong>Enable JavaScript:</strong> The map requires JavaScript to function correctly</li>
+                                        <li><strong>Try a different browser:</strong> Some browsers handle maps better than others</li>
+                                        <li><strong>Clear browser cache:</strong> Old cached data might be interfering with map loading</li>
+                                    </ol>
+                                    <p>For location-specific issues:</p>
+                                    <ul>
+                                        <li>Make sure location access is allowed in your browser settings</li>
+                                        <li>Some VPNs or proxy services can affect location accuracy</li>
+                                        <li>Try selecting countries manually instead of using current location if problems persist</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>I can't upload images. What's wrong?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If you're having trouble uploading images, check these common causes:</p>
+                                    <ol>
+                                        <li><strong>File size too large:</strong> Oria has a 5MB size limit for images</li>
+                                        <li><strong>Unsupported file format:</strong> Make sure you're uploading common image formats (JPG, PNG, GIF, etc.)</li>
+                                        <li><strong>Browser permissions:</strong> Your browser needs file access permission</li>
+                                        <li><strong>Storage issues:</strong> Your device might be low on storage space</li>
+                                        <li><strong>Network issues:</strong> Poor connection can interrupt uploads</li>
+                                    </ol>
+                                    <p>Try these solutions:</p>
+                                    <ul>
+                                        <li>Compress or resize the image to under 5MB</li>
+                                        <li>Convert to a standard format like JPG or PNG</li>
+                                        <li>Try a different image to see if the issue is file-specific</li>
+                                        <li>Use a stable internet connection</li>
+                                        <li>Refresh the page and try again</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>Oria is giving me incorrect information. What should I do?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>While Oria strives for accuracy, it may occasionally provide incorrect information. If this happens:</p>
+                                    <ol>
+                                        <li><strong>Try rephrasing your question:</strong> Sometimes a clearer or more specific question helps</li>
+                                        <li><strong>Provide more context:</strong> Additional details can help Oria understand what you're asking</li>
+                                        <li><strong>Check for recent developments:</strong> Oria's knowledge may not include very recent events or changes</li>
+                                        <li><strong>Verify from other sources:</strong> For critical information, always verify with authoritative sources</li>
+                                    </ol>
+                                    <p>If you notice a consistent pattern of incorrect information on a particular topic, please report it to help improve Oria's accuracy. You can do this by:</p>
+                                    <ul>
+                                        <li>Sending feedback through the Settings page</li>
+                                        <li>Providing specific examples of the incorrect information</li>
+                                        <li>Suggesting the correct information with sources if possible</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>The app is running slowly. How can I improve performance?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If Oria is running slowly, try these performance optimization tips:</p>
+                                    <ol>
+                                        <li><strong>Clear chat history:</strong> Long conversation histories can slow down the app</li>
+                                        <li><strong>Close other browser tabs/apps:</strong> These compete for system resources</li>
+                                        <li><strong>Clear browser cache:</strong> Accumulated cache can affect performance</li>
+                                        <li><strong>Check your internet connection:</strong> Slow connections affect response times</li>
+                                        <li><strong>Use a modern browser:</strong> Older browsers may not handle the app efficiently</li>
+                                    </ol>
+                                    <p>Additional tips for mobile devices:</p>
+                                    <ul>
+                                        <li>Close background apps to free up memory</li>
+                                        <li>Ensure your device has sufficient storage space available</li>
+                                        <li>Use the "Add to Home Screen" option for better performance</li>
+                                        <li>If possible, connect to WiFi instead of using mobile data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>I'm having trouble logging in. What can I do?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If you're experiencing login issues, try these troubleshooting steps:</p>
+                                    <ol>
+                                        <li><strong>Check your credentials:</strong> Ensure you're using the correct email and password</li>
+                                        <li><strong>Verify email verification:</strong> Make sure you've completed the email verification process</li>
+                                        <li><strong>Clear cookies and cache:</strong> Corrupted cookies can interfere with login</li>
+                                        <li><strong>Disable extensions:</strong> Some browser extensions can block login processes</li>
+                                        <li><strong>Try incognito mode:</strong> This can help identify if browser settings are causing issues</li>
+                                        <li><strong>Check caps lock:</strong> Ensure caps lock isn't accidentally on</li>
+                                    </ol>
+                                    <p>If you still can't log in:</p>
+                                    <ul>
+                                        <li>Use the "Forgot Password" option in Settings to reset your password</li>
+                                        <li>Try accessing from a different device or browser</li>
+                                        <li>Check if your email address is typed correctly (only Gmail addresses are supported)</li>
+                                        <li>Contact support if problems persist</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>The theme/colors look wrong on my device. How do I fix this?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If the theme or colors don't display correctly, try these solutions:</p>
+                                    <ol>
+                                        <li><strong>Reset theme settings:</strong> Go to Settings > Appearance and select either Light or Dark theme</li>
+                                        <li><strong>Reset color palette:</strong> In Settings > Color Palette, click "Reset to Default Colors"</li>
+                                        <li><strong>Clear localStorage:</strong> This will reset all settings but can fix corrupted theme data</li>
+                                        <li><strong>Check browser compatibility:</strong> Make sure you're using a supported modern browser</li>
+                                        <li><strong>Disable color management extensions:</strong> Browser extensions that modify colors can interfere</li>
+                                    </ol>
+                                    <p>Device-specific issues:</p>
+                                    <ul>
+                                        <li><strong>Dark mode integration:</strong> Some devices have system-wide dark mode that can interfere</li>
+                                        <li><strong>Accessibility settings:</strong> High contrast or color filters can affect appearance</li>
+                                        <li><strong>Display settings:</strong> Night mode, blue light filters, or custom color profiles can affect colors</li>
+                                    </ul>
+                                    <p>If issues persist, try accessing Oria from a different device to see if the problem is device-specific.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>I didn't receive my verification email. What should I do?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>If you haven't received your verification email, follow these steps:</p>
+                                    <ol>
+                                        <li><strong>Check spam/junk folders:</strong> Verification emails sometimes get filtered</li>
+                                        <li><strong>Wait a few minutes:</strong> Email delivery can sometimes be delayed</li>
+                                        <li><strong>Verify email address:</strong> Double-check that you entered your email correctly</li>
+                                        <li><strong>Check Gmail categories:</strong> Look in Promotions or Updates tabs if using Gmail</li>
+                                        <li><strong>Check Gmail filters:</strong> Make sure you don't have filters automatically archiving these emails</li>
+                                    </ol>
+                                    <p>If you still don't receive the email after 15 minutes:</p>
+                                    <ul>
+                                        <li>Try signing up again with the same email</li>
+                                        <li>Make sure your inbox isn't full</li>
+                                        <li>Ensure your email provider isn't blocking emails from our domain</li>
+                                        <li>Try using a different Gmail address if possible</li>
+                                    </ul>
+                                    <p>If problems persist, please contact support for assistance.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="accordion-button">
+                                <span>How do I report a bug or suggest a feature?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">
+                                    <p>We welcome your feedback to improve Oria. Here's how to report bugs or suggest features:</p>
+                                    <p><strong>Reporting bugs:</strong></p>
+                                    <ol>
+                                        <li>Go to Settings by clicking the settings icon</li>
+                                        <li>Scroll to the bottom and click "Report a Bug"</li>
+                                        <li>Fill in the form with as much detail as possible:</li>
+                                        <ul>
+                                            <li>What you were doing when the bug occurred</li>
+                                            <li>What happened and what you expected to happen</li>
+                                            <li>Your device, browser, and operating system</li>
+                                            <li>Screenshots if possible</li>
+                                        </ul>
+                                    </ol>
+                                    <p><strong>Suggesting features:</strong></p>
+                                    <ol>
+                                        <li>Go to Settings by clicking the settings icon</li>
+                                        <li>Scroll to the bottom and click "Suggest a Feature"</li>
+                                        <li>Describe the feature you'd like to see</li>
+                                        <li>Explain how it would be useful</li>
+                                    </ol>
+                                    <p>Alternatively, you can email feedback directly to <a href="mailto:id.profile.info@gmail.com">id.profile.info@gmail.com</a> with the subject line "Bug Report" or "Feature Suggestion".</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- No Results Message (hidden by default) -->
+                <div class="no-results" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h3>No results found</h3>
+                    <p>Try using different keywords or browse the categories</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Need Help Floating Button -->
+    <a href="https://bappi5.netlify.app/" target="_blank" class="need-help-button" aria-label="Need additional help">
+        <i class="fas fa-life-ring"></i>
+    </a>
+
+    <script>
+        // DOM Elements
+        const faqItems = document.querySelectorAll('.faq-item');
+        const searchInput = document.getElementById('faq-search');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const noResults = document.querySelector('.no-results');
+        
+        // Apply saved theme on page load
+        function applyTheme() {
+            const darkModeEnabled = localStorage.getItem('darkMode') !== 'disabled';
+            if (darkModeEnabled) {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            }
+        }
+        
+        // Apply custom colors from localStorage when page loads
+        function applyCustomColors() {
+            const isDarkTheme = localStorage.getItem('darkMode') !== 'disabled';
+            const themePrefix = isDarkTheme ? 'dark' : 'light';
+            
+            // Get all CSS variables 
+            const cssVars = [
+                '--text-color', '--subheading-color', '--placeholder-color',
+                '--primary-color', '--secondary-color', '--secondary-hover-color',
+                '--scrollbar-color', '--border-color', '--divider-color',
+                '--success-color', '--error-color', '--warning-color',
+                '--info-color', '--accent-color', '--button-primary-color'
+            ];
+            
+            // Apply stored colors
+            cssVars.forEach(varName => {
+                const storedColor = localStorage.getItem(`${themePrefix}-${varName}`);
+                if (storedColor) {
+                    document.documentElement.style.setProperty(varName, storedColor);
+                }
+            });
+        }
+        
+        // Apply theme and colors when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            applyCustomColors();
+            
+            // Initialize search functionality
+            initSearch();
+            
+            // Initialize category tabs
+            initCategoryTabs();
+            
+            // Initialize accordion functionality
+            initAccordion();
+        });
+        
+        // Set default theme if not set
+        if (!localStorage.getItem('darkMode')) {
+            localStorage.setItem('darkMode', 'enabled');
+            document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
+        }
+        
+        // Initialize accordion functionality
+        function initAccordion() {
+            faqItems.forEach(item => {
+                const button = item.querySelector('.accordion-button');
+                
+                button.addEventListener('click', () => {
+                    // Toggle active class for current item
+                    item.classList.toggle('active');
+                    
+                    // Update aria-expanded attribute for accessibility
+                    const expanded = item.classList.contains('active');
+                    button.setAttribute('aria-expanded', expanded);
+                });
+            });
+        }
+        
+        // Initialize search functionality
+        function initSearch() {
+            if (!searchInput) {
+                console.error('Search input element not found!');
+                return;
+            }
+            
+            // Search functionality
+            searchInput.addEventListener('input', performSearch);
+            searchInput.addEventListener('keyup', performSearch);
+            
+            // Ensure search works on mobile by adding a specific blur event
+            searchInput.addEventListener('blur', performSearch);
+        }
+        
+        // Perform search based on input value
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let hasResults = false;
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.accordion-button span').textContent.toLowerCase();
+                const answer = item.querySelector('.accordion-content-inner').textContent.toLowerCase();
+                
+                // Check if question or answer contains the search term
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide sections based on whether they have visible items
+            document.querySelectorAll('.help-section').forEach(section => {
+                const visibleItems = section.querySelectorAll('.faq-item[style="display: block"]').length;
+                section.style.display = visibleItems > 0 ? 'block' : 'none';
+            });
+            
+            // Show/hide no results message
+            noResults.style.display = hasResults ? 'none' : 'block';
+            
+            // If search is empty, reset view based on active category
+            if (searchTerm === '') {
+                const activeCategory = document.querySelector('.category-tab.active').dataset.category;
+                filterByCategory(activeCategory);
+            }
+        }
+        
+        // Initialize category tabs
+        function initCategoryTabs() {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Filter items by category
+                    const category = tab.dataset.category;
+                    filterByCategory(category);
+                    
+                    // Clear search input
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                });
+            });
+        }
+        
+        // Filter FAQ items by category
+        function filterByCategory(category) {
+            let hasResults = false;
+            
+            // Show/hide sections based on category
+            document.querySelectorAll('.help-section').forEach(section => {
+                if (category === 'all' || section.dataset.category === category) {
+                    section.style.display = 'block';
+                    
+                    // Show all items in this section
+                    section.querySelectorAll('.faq-item').forEach(item => {
+                        item.style.display = 'block';
+                    });
+                    
+                    hasResults = true;
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            noResults.style.display = hasResults ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html> 
